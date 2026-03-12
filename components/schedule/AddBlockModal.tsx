@@ -88,7 +88,7 @@ export function AddBlockModal({ open, onClose, onAdd, subjects }: AddBlockModalP
                       className="w-3.5 h-3.5 rounded-full shrink-0 ring-2 ring-offset-2 ring-offset-background transition-all"
                       style={{
                         backgroundColor: s.color,
-                        ringColor: subjectId === s.id ? s.color : 'transparent',
+                        ['--tw-ring-color' as string]: subjectId === s.id ? s.color : 'transparent',
                       }}
                     />
                     <span className="text-sm font-medium flex-1">{s.name}</span>
