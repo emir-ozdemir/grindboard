@@ -21,9 +21,9 @@ export function WeeklyGrid({ schedules, onDelete, today }: WeeklyGridProps) {
   const [nowMins, setNowMins] = useState<number | null>(null);
 
   const DAY_ABBR: Record<number, string> = {
-    0: t('daysShort.sun' as any), 1: t('daysShort.mon' as any), 2: t('daysShort.tue' as any),
-    3: t('daysShort.wed' as any), 4: t('daysShort.thu' as any), 5: t('daysShort.fri' as any),
-    6: t('daysShort.sat' as any),
+    0: t('daysShort.sun' as never), 1: t('daysShort.mon' as never), 2: t('daysShort.tue' as never),
+    3: t('daysShort.wed' as never), 4: t('daysShort.thu' as never), 5: t('daysShort.fri' as never),
+    6: t('daysShort.sat' as never),
   };
 
   useEffect(() => {

@@ -143,7 +143,7 @@ function PricingCard({
               )}>
                 <Icon className={cn('w-3 h-3', isYearly ? 'text-amber-600 dark:text-amber-400' : 'text-primary')} />
               </span>
-              <span className="text-foreground/80 leading-snug">{t(`features.${key}` as any)}</span>
+              <span className="text-foreground/80 leading-snug">{t(`features.${key}` as never)}</span>
               <Check className={cn(
                 'w-3.5 h-3.5 ml-auto shrink-0',
                 isYearly ? 'text-amber-600 dark:text-amber-400' : 'text-primary',
