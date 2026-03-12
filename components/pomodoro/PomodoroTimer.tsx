@@ -219,7 +219,7 @@ function ManualSection({ userId, subjects }: PomodoroTimerProps) {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement).tagName?.toLowerCase();
       if (['input', 'textarea', 'select'].includes(tag)) return;
-      if (e.key === ' ') { e.preventDefault(); isRunning ? pause() : start(); }
+      if (e.key === ' ') { e.preventDefault(); if (isRunning) { pause(); } else { start(); } }
       else if (e.key === 'r' || e.key === 'R') reset();
     };
     window.addEventListener('keydown', onKey);
@@ -481,7 +481,7 @@ function AutoSection({ userId, subjects }: PomodoroTimerProps) {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement).tagName?.toLowerCase();
       if (['input', 'textarea', 'select'].includes(tag)) return;
-      if (e.key === ' ') { e.preventDefault(); isRunning ? pause() : start(); }
+      if (e.key === ' ') { e.preventDefault(); if (isRunning) { pause(); } else { start(); } }
       else if (e.key === 'r' || e.key === 'R') reset();
     };
     window.addEventListener('keydown', onKey);

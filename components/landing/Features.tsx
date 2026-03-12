@@ -159,7 +159,6 @@ const CARDS = [
   { key: 'multiplatform', Visual: MultiplatformVisual, accent: '#06b6d4' },
 ] as const;
 
-type CardKey = typeof CARDS[number]['key'];
 
 function normalizePos(raw: number, total: number) {
   return raw > total / 2 ? raw - total : raw;
