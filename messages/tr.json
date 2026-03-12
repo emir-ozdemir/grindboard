@@ -1,0 +1,582 @@
+{
+  "common": {
+    "appName": "GrindBoard",
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol",
+    "logout": "Çıkış Yap",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "add": "Ekle",
+    "loading": "Yükleniyor...",
+    "settings": "Ayarlar"
+  },
+  "landing": {
+    "nav": {
+      "features": "Özellikler",
+      "pricing": "Fiyatlandırma",
+      "faq": "SSS",
+      "login": "Giriş Yap",
+      "cta": "Ücretsiz Başla"
+    },
+    "hero": {
+      "badge": "7 gün ücretsiz — kredi kartı gerekmez",
+      "title": "Çalışmak yeterli değil.",
+      "titleAccent": "Doğru çalış.",
+      "subtitle": "GrindBoard; pomodoro zamanlayıcı, haftalık ders programı ve konu takibi ile sınav hazırlığını baştan sona organize eder. Daha az zaman kaybet, daha fazla konu bitir.",
+      "cta": "7 Gün Ücretsiz Başla",
+      "ctaSecondary": "Nasıl çalışır?",
+      "socialProof": "öğrenci kullanıyor"
+    },
+    "features": {
+      "title": "Sınav hazırlığında ihtiyacın olan her şey",
+      "subtitle": "Dağınık notlar, unutulan konular ve boşa harcanan saatler yerine — net bir sistem.",
+      "pomodoro": {
+        "title": "Pomodoro Zamanlayıcı",
+        "description": "25 dakika odaklan, 5 dakika mola ver. Bilimsel araştırmalarla desteklenen bu yöntem dikkat süresini ve hafızayı güçlendirir. Çalışma ve mola sürelerini kendi rutinine göre ayarlayabilir, her oturumu ders bazlı kaydedebilirsin."
+      },
+      "schedule": {
+        "title": "Haftalık Ders Programı",
+        "description": "Haftanın her gününe ders bloğu ekle, görsel bir program oluştur. Sabah matematik, öğleden sonra Türkçe gibi rutinleri bir kez kur, hafta boyunca takip et. Ne zaman ne çalışacağını bilmek motivasyonu ikiye katlar."
+      },
+      "topics": {
+        "title": "Konu Takip Sistemi",
+        "description": "Derse göre ayrılmış konu listelerini yönet; her konuyu 'Başlanmadı', 'Devam Ediyor' veya 'Tamamlandı' olarak işaretle. Hangi konuların eksik kaldığını anında gör, not ekle ve sınav gününe kadar takibini yap."
+      },
+      "stats": {
+        "title": "Detaylı İstatistikler",
+        "description": "Günlük, haftalık ve aylık çalışma sürelerini grafiklerle analiz et. Hangi derse ne kadar zaman ayırdığını, en verimli saatlerini ve çalışma serisini tek ekranda gör. Veriye dayalı kararlar al, stratejini güncelle."
+      },
+      "streak": {
+        "title": "Çalışma Serisi",
+        "description": "Her gün çalışarak serini devam ettir. Ardışık çalışma günleri alışkanlık oluşturmanın en güçlü yöntemidir. GrindBoard, seriniz kırıldığında seni hatırlatır ve motivasyonunu canlı tutar."
+      },
+      "multiplatform": {
+        "title": "Her Cihazdan Erişim",
+        "description": "Bulut tabanlı yapısı sayesinde telefon, tablet veya bilgisayarından aynı hesapla giriş yap, verilerine anında eriş. Kütüphanede başladığın çalışmayı evde kaldığın yerden sürdür."
+      }
+    },
+    "socialProof": {
+      "students": "Aktif Öğrenci",
+      "pomodoros": "Tamamlanan Pomodoro",
+      "topics": "İşaretlenen Konu",
+      "rating": "Kullanıcı Puanı"
+    },
+    "howItWorks": {
+      "title": "Üç adımda başla",
+      "subtitle": "Karmaşık kurulum yok. Hesap oluştur, derslerini gir ve çalışmaya başla.",
+      "step1": {
+        "title": "Hesabını oluştur",
+        "description": "E-posta adresinle kayıt ol, 7 günlük deneme dönemi başlasın. Kredi kartı bilgisi istemiyoruz."
+      },
+      "step2": {
+        "title": "Ders ve konularını ekle",
+        "description": "Hazırlandığın sınava göre derslerini gir, her ders için konu listesi oluştur. Haftalık programını saatler bazında düzenle."
+      },
+      "step3": {
+        "title": "Odaklan ve takip et",
+        "description": "Pomodoro zamanlayıcıyla oturumlarına başla, tamamlanan konuları işaretle ve istatistiklerinle ilerlemeyi gözlemle."
+      }
+    },
+    "pricing": {
+      "title": "Dürüst bir fiyat",
+      "subtitle": "Tek plan, tüm özellikler dahil. Gizli ücret yok, sürpriz yok.",
+      "badge": "En Popüler",
+      "price": "4.99",
+      "period": "/ay",
+      "trial": "7 gün ücretsiz dene",
+      "guarantee": "30 gün iade garantisi",
+      "cta": "7 Gün Ücretsiz Başla",
+      "ctaSub": "Abonelik deneme sonrası başlar",
+      "features": [
+        "Sınırsız Pomodoro oturumu",
+        "Haftalık görsel ders programı",
+        "Sınırsız ders ve konu takibi",
+        "Günlük, haftalık, aylık istatistikler",
+        "Çalışma serisi takibi",
+        "Karanlık ve aydınlık tema",
+        "Türkçe ve İngilizce dil desteği",
+        "Tüm cihazlardan senkronize erişim",
+        "7/24 veri güvenliği"
+      ],
+      "monthlyLabel": "Aylık",
+      "yearlyLabel": "Yıllık",
+      "yearlyBadge": "En İyi Değer",
+      "yearlySavings": "4 ay bedava",
+      "yearlyPerMonth": "aylık sadece $3.33",
+      "yearlyPrice": "39.99",
+      "yearlyPeriod": "/yıl",
+      "yearlyCta": "Yıllık Planı Seç",
+      "monthlyCta": "Aylık Planı Seç",
+      "originalYearly": "$59.88",
+      "yearlySavingsCallout": "$19.89 tasarruf — 4 ay bedava kullan!"
+    },
+    "testimonials": {
+      "title": "Öğrenciler ne diyor?",
+      "subtitle": "Türkiye genelinden öğrencilerin yorumları"
+    },
+    "faq": {
+      "title": "Aklındaki sorular",
+      "subtitle": "Bulamadığın bir cevap varsa destek ekibimize yazabilirsin.",
+      "items": [
+        {
+          "q": "Deneme süresi nasıl çalışır?",
+          "a": "Kayıt olduktan sonra herhangi bir ödeme yapmadan 7 gün boyunca tüm özellikleri eksiksiz kullanabilirsin. Deneme süren dolmadan önce e-posta ile hatırlatma alırsın. Deneme bitmeden istediğin zaman iptal edebilirsin; hiçbir ücret kesilmez."
+        },
+        {
+          "q": "Aboneliği iptal etmek istersem ne olur?",
+          "a": "Ayarlar sayfasındaki 'Aboneliği İptal Et' butonuyla tek tıkla iptal edebilirsin. İptal işlemi anında gerçekleşir ve mevcut fatura dönemin sona erene kadar platforma erişimin devam eder. İptal sonrası ek ücret kesilmez."
+        },
+        {
+          "q": "Hangi sınavlar için kullanılabilir?",
+          "a": "GrindBoard sınav türüne bağlı değil. YKS, KPSS, ALES, DGS, LGS, ÖSYM, üniversite final sınavları veya kişisel gelişim çalışmaları için kullanabilirsin. Kendi ders ve konu listeni sıfırdan oluşturabilirsin."
+        },
+        {
+          "q": "Verilerime başka bir cihazdan da erişebilir miyim?",
+          "a": "Evet. GrindBoard tamamen bulut tabanlı çalışır; telefonundan, tabletinden veya bilgisayarından aynı hesapla giriş yaptığında tüm verilerine, konu listelerine ve istatistiklerine anında erişebilirsin."
+        },
+        {
+          "q": "Pomodoro tekniği gerçekten işe yarıyor mu?",
+          "a": "Evet. Pomodoro tekniği, Francesco Cirillo tarafından geliştirilen ve onlarca bilimsel çalışmayla desteklenen bir zaman yönetimi yöntemidir. Kısa ve odaklı çalışma aralıkları dikkat süresini artırır, yorgunluğu azaltır ve bilgilerin kalıcı öğrenilmesini kolaylaştırır. GrindBoard'da çalışma ve mola sürelerini kendi ihtiyacına göre özelleştirebilirsin."
+        },
+        {
+          "q": "Ödeme güvenliği nasıl sağlanıyor?",
+          "a": "Ödemeler, Lemon Squeezy altyapısıyla güvenli şekilde işlenir. Kart bilgilerini doğrudan saklamıyoruz. PCI-DSS uyumlu ödeme sistemi ve SSL şifrelemesi kullanılmaktadır. Supabase'de saklanan kişisel veriler satır düzeyinde güvenlik politikalarıyla korunur."
+        },
+        {
+          "q": "Fiyat ilerleyen süreçte değişir mi?",
+          "a": "Mevcut üyeler için fiyat değişmez. Aktif aboneliğin varken fiyat artışı yaparsak bu değişiklik sana uygulanmaz; aylık 4,99 dolar üzerinden faturalandırılmaya devam edersin."
+        },
+        {
+          "q": "Mobil uygulama var mı?",
+          "a": "Şu an için web uygulaması olarak hizmet veriyoruz. Mobil tarayıcıda tam ekran ve sorunsuz çalışır. Native mobil uygulama geliştirme sürecindedir ve yakın zamanda yayınlanacak."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Başlamak için doğru zaman şimdi",
+      "subtitle": "Her ertelediğin gün, geride kalan bir konu demek. 7 gün boyunca ücretsiz dene, farkı kendin gör.",
+      "button": "Şimdi Başla — Ücretsiz",
+      "sub": "Kredi kartı gerekmez. İstediğin zaman iptal et."
+    },
+    "footer": {
+      "rights": "Tüm hakları saklıdır.",
+      "slogan": "Daha az zaman kaybet, daha fazla konu bitir.",
+      "links": {
+        "privacy": "Gizlilik",
+        "terms": "Kullanım Koşulları",
+        "contact": "İletişim"
+      }
+    }
+  },
+  "nav": {
+    "menu": "Navigasyon",
+    "dashboard": "Kontrol Paneli",
+    "pomodoro": "Pomodoro",
+    "schedule": "Ders Programı",
+    "topics": "Konu Takip",
+    "notes": "Notlarım",
+    "stats": "İstatistikler",
+    "exams": "Sınav Geri Sayımı",
+    "settings": "Ayarlar",
+    "subscribe": "Pro'ya Geç"
+  },
+  "dashboard": {
+    "title": "Kontrol Paneli",
+    "todaySummary": "Bugünün Özeti",
+    "totalStudy": "Toplam Çalışma",
+    "pomodorosCompleted": "Tamamlanan Pomodoro",
+    "dailyGoal": "Günlük Hedef",
+    "streak": "Çalışma Serisi",
+    "days": "gün",
+    "minutes": "dakika",
+    "hours": "saat",
+    "weeklyChart": "Haftalık Çalışma",
+    "upcomingSchedule": "Yaklaşan Program",
+    "quickActions": "Hızlı Erişim",
+    "startPomodoro": "Pomodoro Başlat",
+    "viewSchedule": "Programa Git",
+    "trialBanner": "{days} gün deneme süreniz kaldı",
+    "trialExpired": "Deneme süreniz doldu. Devam etmek için abone olun.",
+    "subscribeNow": "Şimdi Abone Ol",
+    "noActivity": "Henüz çalışma kaydı yok",
+    "goalProgress": "Günlük Hedefe İlerleme",
+    "min": "dk",
+    "total": "toplam"
+  },
+  "pomodoro": {
+    "title": "Pomodoro Zamanlayıcı",
+    "work": "Çalışma",
+    "shortBreak": "Kısa Mola",
+    "longBreak": "Uzun Mola",
+    "start": "Başlat",
+    "pause": "Duraklat",
+    "reset": "Sıfırla",
+    "selectSubject": "Ders Seç",
+    "noSubject": "Derssiz çalış",
+    "todayStats": "Bugün {count} pomodoro tamamladın ({minutes} dk)",
+    "sessionSaved": "Oturum kaydedildi!",
+    "settings": {
+      "title": "Zamanlayıcı Ayarları",
+      "workDuration": "Çalışma Süresi (dk)",
+      "shortBreakDuration": "Kısa Mola Süresi (dk)",
+      "longBreakDuration": "Uzun Mola Süresi (dk)"
+    },
+    "manual": "Manuel",
+    "auto": "Otomatik",
+    "subject": "Ders",
+    "break": "Mola",
+    "presets": "Preset Süreleri",
+    "newPreset": "Yeni Preset",
+    "presetName": "Preset adı",
+    "min": "dk",
+    "sequence": "Sıra",
+    "setupSequence": "Sıra Ayarla",
+    "sequenceComplete": "Sıra tamamlandı! Harika iş çıkardın.",
+    "nextBlock": "Sonraki blok başlıyor...",
+    "todayStudied": "Bugün: {n} dk çalışıldı",
+    "selectSubjectOptional": "Ders seç (opsiyonel)",
+    "general": "Genel",
+    "short": "Kısa",
+    "long": "Uzun",
+    "presetClassic": "Klasik",
+    "presetDeep": "Derin Çalışma",
+    "presetSprint": "Sprint",
+    "hourShort": "s",
+    "block": "blok",
+    "total": "toplam"
+  },
+  "schedule": {
+    "title": "Ders Programı",
+    "addBlock": "Ders Bloğu Ekle",
+    "editBlock": "Ders Bloğunu Düzenle",
+    "selectSubject": "Ders Seç",
+    "selectDay": "Gün Seç",
+    "startTime": "Başlangıç Saati",
+    "endTime": "Bitiş Saati",
+    "days": {
+      "mon": "Pazartesi",
+      "tue": "Salı",
+      "wed": "Çarşamba",
+      "thu": "Perşembe",
+      "fri": "Cuma",
+      "sat": "Cumartesi",
+      "sun": "Pazar"
+    },
+    "today": "Bugün",
+    "empty": "Henüz ders bloğu eklenmemiş.",
+    "deleteConfirm": "Bu ders bloğunu silmek istediğinizden emin misiniz?",
+    "daysShort": {
+      "sun": "Paz", "mon": "Pzt", "tue": "Sal", "wed": "Çar", "thu": "Per", "fri": "Cum", "sat": "Cmt"
+    },
+    "weekPrefix": "",
+    "weekSuffix": " haftası",
+    "daySuffix": " günü",
+    "emptyTitle": "Ders programın henüz boş",
+    "emptyDesc": "Haftalık çalışma bloklarını ekleyerek programını oluşturmaya başla",
+    "addFirst": "İlk Bloğu Ekle",
+    "addBlockDesc": "Haftalık programına ders bloğu ekle",
+    "noSubjects": "Henüz ders eklenmemiş.",
+    "timeRange": "Saat Aralığı",
+    "adding": "Ekleniyor..."
+  },
+  "topics": {
+    "title": "Konu Takip",
+    "addSubject": "Ders Ekle",
+    "addTopic": "Konu Ekle",
+    "editSubject": "Dersi Düzenle",
+    "editTopic": "Konuyu Düzenle",
+    "allSubjects": "Tüm Dersler",
+    "progress": "İlerleme",
+    "subjectName": "Ders Adı",
+    "topicName": "Konu Adı",
+    "color": "Renk",
+    "status": {
+      "notStarted": "Başlanmadı",
+      "inProgress": "Devam Ediyor",
+      "completed": "Tamamlandı"
+    },
+    "completedOf": "{completed}/{total} konu tamamlandı",
+    "addNote": "Not Ekle",
+    "notePlaceholder": "Bu konu hakkında notlarını yaz...",
+    "deleteSubjectConfirm": "Bu dersi silmek istediğinizden emin misiniz? Tüm konular da silinecektir.",
+    "deleteTopicConfirm": "Bu konuyu silmek istediğinizden emin misiniz?",
+    "subjectNamePlaceholder": "Matematik",
+    "topicNamePlaceholder": "Türev"
+  },
+  "stats": {
+    "title": "İstatistikler",
+    "daily": "Günlük",
+    "weekly": "Haftalık",
+    "monthly": "Aylık",
+    "totalStudyTime": "Toplam Çalışma Süresi",
+    "subjectDistribution": "Ders Dağılımı",
+    "mostProductiveDay": "En Verimli Gün",
+    "mostProductiveHour": "En Verimli Saat",
+    "currentStreak": "Mevcut Seri",
+    "longestStreak": "En Uzun Seri",
+    "topicCompletion": "Konu Tamamlama Oranı",
+    "noData": "Henüz veri yok. Çalışmaya başla!",
+    "hours": "saat",
+    "minutes": "dakika"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "profile": "Profil",
+    "fullName": "Ad Soyad",
+    "username": "Kullanıcı Adı",
+    "email": "E-posta",
+    "pomodoroSettings": "Pomodoro Ayarları",
+    "dailyGoal": "Günlük Hedef (dakika)",
+    "theme": "Tema",
+    "darkMode": "Karanlık Mod",
+    "lightMode": "Aydınlık Mod",
+    "systemMode": "Sistem",
+    "language": "Dil",
+    "subscription": "Abonelik",
+    "subscriptionStatus": "Abonelik Durumu",
+    "manageSubscription": "Aboneliği Yönet",
+    "deleteAccount": "Hesabı Sil",
+    "deleteWarning": "Bu işlem geri alınamaz. Tüm verileriniz silinecektir.",
+    "saveChanges": "Değişiklikleri Kaydet",
+    "savedSuccessfully": "Ayarlar kaydedildi!",
+    "monthlyPlan": "Aylık Plan",
+    "yearlyPlan": "Yıllık Plan",
+    "nextPayment": "Sonraki ödeme",
+    "trialPeriod": "Deneme süresi",
+    "upgradeTitle": "Yıllığa geç, %33 tasarruf et!",
+    "upgradeSavings": "Aylık $3.33 — 4 ay bedava",
+    "upgradeToYearly": "Yıllığa Geç",
+    "shortcuts": "Klavye Kısayolları",
+    "shortcutsNote": "Space ve R yalnızca Pomodoro sayfasında çalışır",
+    "shortcutPomodoroToggle": "Pomodoro başlat / duraklat",
+    "shortcutPomodoroReset": "Pomodoro sıfırla",
+    "shortcutToggleTheme": "Temayı değiştir",
+    "shortcutNavPages": "Sayfa geçişi"
+  },
+  "auth": {
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol",
+    "email": "E-posta",
+    "password": "Şifre",
+    "confirmPassword": "Şifre Tekrar",
+    "forgotPassword": "Şifremi Unuttum",
+    "noAccount": "Hesabın yok mu?",
+    "hasAccount": "Zaten hesabın var mı?",
+    "createAccount": "Hesap Oluştur",
+    "loginError": "E-posta veya şifre hatalı.",
+    "registerError": "Kayıt sırasında hata oluştu.",
+    "passwordMismatch": "Şifreler eşleşmiyor.",
+    "checkEmail": "E-postanı kontrol et! Doğrulama bağlantısı gönderildi.",
+    "fullName": "Ad Soyad",
+    "or": "veya"
+  },
+  "subscription": {
+    "trialing": "Deneme Sürümü",
+    "active": "Aktif",
+    "cancelled": "İptal Edildi",
+    "expired": "Süresi Doldu",
+    "trialExpired": "Deneme süreniz doldu",
+    "subscribeNow": "Abone Ol — $4.99/ay",
+    "trialDaysLeft": "{days} gün kaldı",
+    "manage": "Aboneliği Yönet",
+    "cancelSubscription": "Aboneliği İptal Et",
+    "paused": "Duraklatıldı",
+    "notFound": "Abonelik bilgisi bulunamadı."
+  },
+  "notes": {
+    "filter": "Filtrele",
+    "all": "Tümü",
+    "general": "Genel Notlar",
+    "newNote": "Yeni Not",
+    "search": "Notlarda ara...",
+    "count": "{n} not",
+    "pinned": "Sabitlenmiş",
+    "others": "Diğer Notlar",
+    "emptyTitle": "Henüz not yok",
+    "emptyDesc": "Ders notlarını, önemli bilgileri veya aklına gelenleri buraya kaydet.",
+    "createFirst": "İlk notu oluştur",
+    "editNote": "Notu Düzenle",
+    "titlePlaceholder": "Not başlığı...",
+    "contentPlaceholder": "Notunu buraya yaz...",
+    "unsaved": "Kaydedilmemiş yeni not",
+    "lastEdited": "Son düzenleme: {date}",
+    "saving": "Kaydediliyor...",
+    "create": "Oluştur",
+    "selectSubject": "Ders seç",
+    "generalNote": "Genel Not",
+    "selectTopic": "Konu seç",
+    "noTopic": "Konu yok",
+    "savedSuccess": "Not oluşturuldu",
+    "updatedSuccess": "Not güncellendi",
+    "deletedSuccess": "Not silindi",
+    "saveError": "Not kaydedilemedi.",
+    "createError": "Not oluşturulamadı.",
+    "noResults": "Sonuç bulunamadı",
+    "justNow": "az önce",
+    "minutesAgo": "{n} dk önce",
+    "hoursAgo": "{n} saat önce",
+    "daysAgo": "{n} gün önce"
+  },
+  "exams": {
+    "addExam": "Sınav Ekle",
+    "editExam": "Sınavı Düzenle",
+    "newExam": "Yeni Sınav Ekle",
+    "examName": "Sınav Adı",
+    "dateTime": "Tarih ve Saat",
+    "color": "Renk",
+    "save": "Kaydet",
+    "add": "Ekle",
+    "cancel": "İptal",
+    "emptyTitle": "Henüz sınav eklenmedi",
+    "emptyDesc": "Sınavlarını ekle, gün gün geri sayımı takip et ve hazırlığını planla.",
+    "addFirst": "İlk sınavı ekle",
+    "nearestExam": "En yakın sınav",
+    "upcomingExam": "Yaklaşan Sınav",
+    "allExams": "Tüm Sınavlar",
+    "pastExams": "Geçmiş Sınavlar ({count})",
+    "tracking": "{count} sınav takip ediliyor",
+    "others": "+{count} diğer",
+    "days": "gün",
+    "hours": "saat",
+    "today": "Bugün",
+    "todayBang": "Bugün!",
+    "veryClose": "Çok yakın",
+    "thisWeek": "Bu hafta",
+    "completed": "Tamamlandı",
+    "hoursLeft": "{h}s {m}dk kaldı",
+    "minsLeft": "{m}dk kaldı",
+    "daysShort": "{n}g",
+    "examNamePlaceholder": "YKS, KPSS, Matematik Vize..."
+  },
+  "subscribe": {
+    "title": "GrindBoard Pro'ya Geç",
+    "subtitle": "7 gün ücretsiz dene, istediğin zaman iptal et.",
+    "monthly": "Aylık",
+    "yearly": "Yıllık",
+    "yearlyBadge": "%33 İndirim",
+    "monthlyPrice": "$4.99",
+    "yearlyMonthlyPrice": "$3.33",
+    "yearlyTotal": "yılda $39.99 ödenir (normal $59.88)",
+    "perMonth": "/ay",
+    "planName": "GrindBoard Pro",
+    "planDesc": "Sınav hazırlığının tüm araçları tek pakette.",
+    "cta": "Hemen Başla",
+    "ctaTrial": "7 Gün Ücretsiz Başla",
+    "alreadyActive": "Zaten abone olmuşsunuz",
+    "manageSubscription": "Aboneliği yönet",
+    "features": {
+      "pomodoro": "Sınırsız Pomodoro oturumu",
+      "schedule": "Haftalık ders programı",
+      "topics": "Konu takip sistemi",
+      "stats": "Detaylı istatistikler ve grafikler",
+      "exams": "Sınav geri sayımı",
+      "notes": "Not defteri",
+      "sync": "Tüm cihazlarda senkronizasyon"
+    },
+    "monthlyBilledDesc": "Her ay yenilenir",
+    "yearlySavingsBadge": "4 ay bedava",
+    "yearlySavingsTitle": "$19.89 tasarruf — 4 ay bedava!",
+    "mostPopular": "En Popüler",
+    "secure": "Güvenli ödeme · Lemon Squeezy",
+    "loading": "Yönlendiriliyor..."
+  },
+  "privacy": {
+    "title": "Gizlilik Politikası",
+    "lastUpdated": "Son güncelleme: Mart 2026",
+    "intro": "GrindBoard olarak gizliliğinize değer veriyoruz. Bu politika, hizmetimizi kullanırken hangi verileri topladığımızı ve bunları nasıl kullandığımızı açıklar.",
+    "sections": [
+      {
+        "title": "Topladığımız Veriler",
+        "content": "Hesap oluştururken e-posta adresinizi ve adınızı alırız. Hizmeti kullanırken oluşturulan çalışma oturumları, pomodoro kayıtları, ders programı ve konu takip verileri de sistemimizde saklanır. Ödeme işlemleri için faturalandırma bilgileri Lemon Squeezy tarafından işlenir; kart bilgilerinizi biz görmeyiz."
+      },
+      {
+        "title": "Verileri Nasıl Kullanıyoruz",
+        "content": "Topladığımız veriler yalnızca hesabınızı yönetmek, size hizmet sunmak ve uygulamanın düzgün çalışmasını sağlamak amacıyla kullanılır. Verilerinizi üçüncü taraflara satmaz, reklam amacıyla kullanmayız."
+      },
+      {
+        "title": "Verilerinizi Kimlerle Paylaşıyoruz",
+        "content": "Supabase (veritabanı ve kimlik doğrulama altyapısı), Lemon Squeezy (ödeme işlemleri) ve Vercel (uygulama barındırma) hizmetleriyle çalışıyoruz. Bu sağlayıcılar yalnızca hizmetin işlevini yerine getirmek için gerekli verilere erişir ve kendi gizlilik politikalarına tabidir."
+      },
+      {
+        "title": "Çerezler",
+        "content": "Yalnızca oturum yönetimi için zorunlu çerezler kullanıyoruz. İzleme, analitik veya reklam amaçlı üçüncü taraf çerezleri kullanmıyoruz."
+      },
+      {
+        "title": "Veri Saklama Süresi",
+        "content": "Verileriniz hesabınız aktif olduğu sürece saklanır. Hesabınızı sildiğinizde tüm kişisel verileriniz sistemimizden kalıcı olarak silinir."
+      },
+      {
+        "title": "Haklarınız",
+        "content": "KVKK ve GDPR kapsamında verilerinize erişme, düzeltme, silme ve işlenmesine itiraz etme hakkına sahipsiniz. Bu haklarınızı kullanmak için aşağıdaki iletişim adresiyle bize ulaşabilirsiniz."
+      },
+      {
+        "title": "İletişim",
+        "content": "Gizlilik politikamıza ilişkin sorularınız için: support@grindboard.org"
+      }
+    ]
+  },
+  "terms": {
+    "title": "Kullanım Koşulları",
+    "lastUpdated": "Son güncelleme: Mart 2026",
+    "intro": "GrindBoard'u kullanmadan önce lütfen bu koşulları okuyun. Hizmeti kullanmaya başlamanız, bu koşulları kabul ettiğiniz anlamına gelir.",
+    "sections": [
+      {
+        "title": "Hizmet Tanımı",
+        "content": "GrindBoard; pomodoro zamanlayıcı, haftalık ders programı, konu takip ve istatistik araçlarını içeren çevrimiçi bir eğitim organizasyon platformudur."
+      },
+      {
+        "title": "Hesap Oluşturma",
+        "content": "Hizmetimizi kullanmak için en az 13 yaşında olmanız gerekmektedir. Hesap bilgilerinizin güvenliğinden ve hesabınız üzerinden gerçekleşen tüm işlemlerden siz sorumlusunuz."
+      },
+      {
+        "title": "Ödeme Koşulları",
+        "content": "GrindBoard Pro; aylık $4.99 veya yıllık $39.99 olarak sunulmaktadır. Tüm yeni hesaplar 7 günlük ücretsiz deneme süresinden yararlanır. Deneme süresi boyunca ödeme alınmaz; deneme sonunda abonelik otomatik olarak başlar."
+      },
+      {
+        "title": "İptal Politikası",
+        "content": "Aboneliğinizi istediğiniz zaman iptal edebilirsiniz. İptal işlemi anında gerçekleşir; mevcut fatura döneminin sonuna kadar platforma erişiminiz devam eder. Dönem bitiminde ücret alınmaz."
+      },
+      {
+        "title": "İade Politikası",
+        "content": "Yıllık abonelikte satın alma tarihinden itibaren 14 gün içinde tam iade talep edebilirsiniz. Aylık abonelikler için iade yapılmamaktadır. İade talepleri support@grindboard.org adresine iletilmelidir."
+      },
+      {
+        "title": "Yasaklanan Davranışlar",
+        "content": "Hizmetimizi kötüye kullanmak, başkalarının hesaplarına izinsiz erişim sağlamak, spam göndermek, yazılımı tersine mühendislik uygulamak veya herhangi bir yasa dışı amaçla kullanmak yasaktır."
+      },
+      {
+        "title": "Hizmet Değişiklikleri",
+        "content": "Özellikler ve fiyatlar zaman zaman değişebilir. Önemli değişiklikler öncesinde kayıtlı e-posta adresinize bildirim gönderilir."
+      },
+      {
+        "title": "Sorumluluk Sınırı",
+        "content": "GrindBoard bir eğitim organizasyon aracıdır. Sınav başarısı veya akademik sonuçlar garanti edilmez. Hizmetin kullanımından doğabilecek sonuçlar kullanıcının sorumluluğundadır."
+      },
+      {
+        "title": "Geçerli Hukuk",
+        "content": "Bu koşullar Türkiye Cumhuriyeti yasalarına tabidir. Uyuşmazlıklarda İstanbul mahkeme ve icra daireleri yetkilidir."
+      }
+    ]
+  },
+  "contact": {
+    "title": "İletişim",
+    "lastUpdated": "Son güncelleme: Mart 2026",
+    "emailLabel": "E-posta",
+    "email": "support@grindboard.org",
+    "responseTime": "Mesajlara genellikle 24-48 saat içinde yanıt veriyoruz.",
+    "formTitle": "Bize Mesaj Gönderin",
+    "name": "İsim",
+    "namePlaceholder": "Adınız",
+    "emailField": "E-posta",
+    "emailPlaceholder": "ornek@mail.com",
+    "subject": "Konu",
+    "subjectPlaceholder": "Nasıl yardımcı olabiliriz?",
+    "message": "Mesaj",
+    "messagePlaceholder": "Mesajınızı buraya yazın...",
+    "submit": "Gönder",
+    "successTitle": "Mesajınız alındı!",
+    "successDesc": "En kısa sürede geri dönüş yapacağız. Teşekkür ederiz."
+  }
+}

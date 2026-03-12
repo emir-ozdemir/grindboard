@@ -1,0 +1,579 @@
+{
+  "common": {
+    "appName": "GrindBoard",
+    "login": "Log In",
+    "register": "Sign Up",
+    "logout": "Log Out",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "loading": "Loading...",
+    "settings": "Settings"
+  },
+  "landing": {
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "login": "Log In",
+      "cta": "Start Free"
+    },
+    "hero": {
+      "badge": "7-day free trial — no credit card required",
+      "title": "Working hard isn't enough.",
+      "titleAccent": "Work smart.",
+      "subtitle": "GrindBoard organizes your entire exam prep with a Pomodoro timer, weekly schedule, and topic tracker — all in one place. Waste less time, complete more topics.",
+      "cta": "Start 7-Day Free Trial",
+      "ctaSecondary": "How does it work?",
+      "socialProof": "students using it"
+    },
+    "features": {
+      "title": "Everything you need to ace your exams",
+      "subtitle": "No more scattered notes, forgotten topics, or wasted hours — just a clear system.",
+      "pomodoro": {
+        "title": "Pomodoro Timer",
+        "description": "Focus for 25 minutes, rest for 5. This scientifically-backed method improves attention span and long-term retention. Customize work and break durations to fit your routine and log each session by subject."
+      },
+      "schedule": {
+        "title": "Weekly Study Schedule",
+        "description": "Add study blocks to each day of the week and build a visual schedule. Set up routines like 'morning math, afternoon literature' once, then follow through the week. Knowing what to study — and when — doubles your motivation."
+      },
+      "topics": {
+        "title": "Topic Tracker",
+        "description": "Manage topic lists organized by subject. Mark each topic as 'Not Started', 'In Progress', or 'Completed'. See at a glance what's left to cover, add notes, and stay on top of everything until exam day."
+      },
+      "stats": {
+        "title": "Detailed Statistics",
+        "description": "Analyze your study time with daily, weekly, and monthly charts. See how much time you've spent on each subject, your most productive hours, and your current streak — all on one screen. Make data-driven decisions."
+      },
+      "streak": {
+        "title": "Study Streak",
+        "description": "Build consistency by maintaining your daily study streak. Consecutive study days are the most powerful habit-forming mechanism. GrindBoard reminds you when your streak is at risk, keeping your motivation alive."
+      },
+      "multiplatform": {
+        "title": "Access From Any Device",
+        "description": "Log in from your phone, tablet, or laptop — your data syncs instantly. Start a session at the library and continue from home without missing a beat. Cloud-based and always in sync."
+      }
+    },
+    "socialProof": {
+      "students": "Active Students",
+      "pomodoros": "Pomodoros Completed",
+      "topics": "Topics Tracked",
+      "rating": "User Rating"
+    },
+    "howItWorks": {
+      "title": "Get started in three steps",
+      "subtitle": "No complex setup. Create an account, add your subjects, and start studying.",
+      "step1": {
+        "title": "Create your account",
+        "description": "Sign up with your email and start a 7-day free trial. No credit card information required."
+      },
+      "step2": {
+        "title": "Add your subjects and topics",
+        "description": "Enter your subjects, build a topic list for each one, and set up your weekly schedule with time blocks."
+      },
+      "step3": {
+        "title": "Focus and track",
+        "description": "Start sessions with the Pomodoro timer, check off completed topics, and watch your progress through statistics."
+      }
+    },
+    "pricing": {
+      "title": "Honest pricing",
+      "subtitle": "One plan, all features included. No hidden fees, no surprises.",
+      "badge": "Most Popular",
+      "price": "4.99",
+      "period": "/mo",
+      "trial": "Try free for 7 days",
+      "guarantee": "30-day money-back guarantee",
+      "cta": "Start Free for 7 Days",
+      "ctaSub": "Subscription starts after the trial",
+      "features": [
+        "Unlimited Pomodoro sessions",
+        "Visual weekly study schedule",
+        "Unlimited subjects and topic tracking",
+        "Daily, weekly & monthly statistics",
+        "Study streak tracking",
+        "Dark and light theme",
+        "Turkish and English language support",
+        "Synchronized access from all devices",
+        "24/7 data security"
+      ],
+      "monthlyLabel": "Monthly",
+      "yearlyLabel": "Yearly",
+      "yearlyBadge": "Best Value",
+      "yearlySavings": "4 months free",
+      "yearlyPerMonth": "just $3.33/month",
+      "yearlyPrice": "39.99",
+      "yearlyPeriod": "/yr",
+      "yearlyCta": "Choose Yearly Plan",
+      "monthlyCta": "Choose Monthly Plan",
+      "originalYearly": "$59.88",
+      "yearlySavingsCallout": "Save $19.89 — get 4 months absolutely free!"
+    },
+    "testimonials": {
+      "title": "What students say",
+      "subtitle": "Real reviews from students across Turkey"
+    },
+    "faq": {
+      "title": "Your questions, answered",
+      "subtitle": "Can't find what you're looking for? Reach out to our support team.",
+      "items": [
+        {
+          "q": "How does the free trial work?",
+          "a": "After signing up, you get full access to all features for 7 days — completely free. You'll receive a reminder email before the trial ends. You can cancel at any time during the trial and you won't be charged."
+        },
+        {
+          "q": "What happens if I cancel my subscription?",
+          "a": "You can cancel anytime with a single click from the Settings page. Cancellation takes effect immediately, but you'll retain access to the platform until the end of your current billing period. No charges after that."
+        },
+        {
+          "q": "Which exams is it designed for?",
+          "a": "GrindBoard isn't tied to any specific exam. You can use it for SAT, GRE, GMAT, university finals, professional certification exams, or any personal learning goal. You create your own subject and topic structure from scratch."
+        },
+        {
+          "q": "Can I access my data from multiple devices?",
+          "a": "Yes. GrindBoard is fully cloud-based. Log in from your phone, tablet, or computer with the same account and all your data — topics, sessions, and statistics — is available instantly."
+        },
+        {
+          "q": "Does the Pomodoro technique actually work?",
+          "a": "It does. The Pomodoro Technique was developed by Francesco Cirillo and is backed by multiple scientific studies. Short, focused work intervals improve attention span, reduce mental fatigue, and support long-term memory retention. You can customize both work and break durations to fit your personal rhythm."
+        },
+        {
+          "q": "How is payment processed securely?",
+          "a": "Payments are handled by Lemon Squeezy, a PCI-DSS compliant payment processor. We never store your card information directly. All personal data is protected with row-level security and SSL encryption."
+        },
+        {
+          "q": "Will the price go up later?",
+          "a": "For existing subscribers, the price won't change. If we ever raise prices for new users, your subscription remains locked at $4.99/month."
+        },
+        {
+          "q": "Is there a mobile app?",
+          "a": "Currently GrindBoard is a web application that works seamlessly on mobile browsers in full-screen mode. A native mobile app is in development and will be released soon."
+        }
+      ]
+    },
+    "cta": {
+      "title": "The best time to start is now",
+      "subtitle": "Every day you delay is a topic left uncovered. Try it free for 7 days and see the difference.",
+      "button": "Get Started — It's Free",
+      "sub": "No credit card required. Cancel anytime."
+    },
+    "footer": {
+      "rights": "All rights reserved.",
+      "slogan": "Waste less time, complete more topics.",
+      "links": {
+        "privacy": "Privacy",
+        "terms": "Terms",
+        "contact": "Contact"
+      }
+    }
+  },
+  "nav": {
+    "menu": "Navigation",
+    "dashboard": "Dashboard",
+    "pomodoro": "Pomodoro",
+    "schedule": "Schedule",
+    "topics": "Topics",
+    "notes": "My Notes",
+    "stats": "Statistics",
+    "exams": "Exam Countdown",
+    "settings": "Settings",
+    "subscribe": "Go Pro"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "todaySummary": "Today's Summary",
+    "totalStudy": "Total Study",
+    "pomodorosCompleted": "Pomodoros Completed",
+    "dailyGoal": "Daily Goal",
+    "streak": "Study Streak",
+    "days": "days",
+    "minutes": "min",
+    "hours": "hrs",
+    "weeklyChart": "Weekly Study",
+    "upcomingSchedule": "Upcoming Schedule",
+    "quickActions": "Quick Actions",
+    "startPomodoro": "Start Pomodoro",
+    "viewSchedule": "View Schedule",
+    "trialBanner": "You have {days} days left in your trial",
+    "trialExpired": "Your trial has expired. Subscribe to continue.",
+    "subscribeNow": "Subscribe Now",
+    "noActivity": "No study activity yet",
+    "goalProgress": "Daily Goal Progress",
+    "min": "min",
+    "total": "total"
+  },
+  "pomodoro": {
+    "title": "Pomodoro Timer",
+    "work": "Work",
+    "shortBreak": "Short Break",
+    "longBreak": "Long Break",
+    "start": "Start",
+    "pause": "Pause",
+    "reset": "Reset",
+    "selectSubject": "Select Subject",
+    "noSubject": "Study without subject",
+    "todayStats": "You completed {count} pomodoros today ({minutes} min)",
+    "sessionSaved": "Session saved!",
+    "settings": {
+      "title": "Timer Settings",
+      "workDuration": "Work Duration (min)",
+      "shortBreakDuration": "Short Break Duration (min)",
+      "longBreakDuration": "Long Break Duration (min)"
+    },
+    "manual": "Manual",
+    "auto": "Automatic",
+    "subject": "Subject",
+    "break": "Break",
+    "presets": "Preset Durations",
+    "newPreset": "New Preset",
+    "presetName": "Preset name",
+    "min": "min",
+    "sequence": "Sequence",
+    "setupSequence": "Setup Sequence",
+    "sequenceComplete": "Sequence complete! Great work.",
+    "nextBlock": "Starting next block...",
+    "todayStudied": "Today: {n} min studied",
+    "selectSubjectOptional": "Select subject (optional)",
+    "general": "General",
+    "short": "Short",
+    "long": "Long",
+    "presetClassic": "Classic",
+    "presetDeep": "Deep Work",
+    "presetSprint": "Sprint"
+  },
+  "schedule": {
+    "title": "Study Schedule",
+    "addBlock": "Add Study Block",
+    "editBlock": "Edit Study Block",
+    "selectSubject": "Select Subject",
+    "selectDay": "Select Day",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "days": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday"
+    },
+    "today": "Today",
+    "empty": "No study blocks added yet.",
+    "deleteConfirm": "Are you sure you want to delete this study block?",
+    "daysShort": {
+      "sun": "Sun", "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat"
+    },
+    "weekPrefix": "Week of ",
+    "weekSuffix": "",
+    "daySuffix": "",
+    "emptyTitle": "Your schedule is empty",
+    "emptyDesc": "Start building your weekly routine by adding study blocks",
+    "addFirst": "Add First Block",
+    "addBlockDesc": "Add a study block to your weekly schedule",
+    "noSubjects": "No subjects added yet.",
+    "timeRange": "Time Range",
+    "adding": "Adding..."
+  },
+  "topics": {
+    "title": "Topic Tracker",
+    "addSubject": "Add Subject",
+    "addTopic": "Add Topic",
+    "editSubject": "Edit Subject",
+    "editTopic": "Edit Topic",
+    "allSubjects": "All Subjects",
+    "progress": "Progress",
+    "subjectName": "Subject Name",
+    "topicName": "Topic Name",
+    "color": "Color",
+    "status": {
+      "notStarted": "Not Started",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    },
+    "completedOf": "{completed}/{total} topics completed",
+    "addNote": "Add Note",
+    "notePlaceholder": "Write your notes about this topic...",
+    "deleteSubjectConfirm": "Are you sure you want to delete this subject? All topics will also be deleted.",
+    "deleteTopicConfirm": "Are you sure you want to delete this topic?",
+    "subjectNamePlaceholder": "Mathematics",
+    "topicNamePlaceholder": "Derivatives"
+  },
+  "stats": {
+    "title": "Statistics",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "totalStudyTime": "Total Study Time",
+    "subjectDistribution": "Subject Distribution",
+    "mostProductiveDay": "Most Productive Day",
+    "mostProductiveHour": "Most Productive Hour",
+    "currentStreak": "Current Streak",
+    "longestStreak": "Longest Streak",
+    "topicCompletion": "Topic Completion Rate",
+    "noData": "No data yet. Start studying!",
+    "hours": "hrs",
+    "minutes": "min"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "fullName": "Full Name",
+    "username": "Username",
+    "email": "Email",
+    "pomodoroSettings": "Pomodoro Settings",
+    "dailyGoal": "Daily Goal (minutes)",
+    "theme": "Theme",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "systemMode": "System",
+    "language": "Language",
+    "subscription": "Subscription",
+    "subscriptionStatus": "Subscription Status",
+    "manageSubscription": "Manage Subscription",
+    "deleteAccount": "Delete Account",
+    "deleteWarning": "This action cannot be undone. All your data will be permanently deleted.",
+    "saveChanges": "Save Changes",
+    "savedSuccessfully": "Settings saved!",
+    "monthlyPlan": "Monthly Plan",
+    "yearlyPlan": "Yearly Plan",
+    "nextPayment": "Next payment",
+    "trialPeriod": "Trial period",
+    "upgradeTitle": "Switch to yearly, save 33%!",
+    "upgradeSavings": "$3.33/mo — 4 months free",
+    "upgradeToYearly": "Switch to Yearly",
+    "shortcuts": "Keyboard Shortcuts",
+    "shortcutsNote": "Space and R only work on the Pomodoro page",
+    "shortcutPomodoroToggle": "Start / pause Pomodoro",
+    "shortcutPomodoroReset": "Reset Pomodoro",
+    "shortcutToggleTheme": "Toggle theme",
+    "shortcutNavPages": "Navigate pages"
+  },
+  "auth": {
+    "login": "Log In",
+    "register": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "createAccount": "Create Account",
+    "loginError": "Invalid email or password.",
+    "registerError": "An error occurred during registration.",
+    "passwordMismatch": "Passwords do not match.",
+    "checkEmail": "Check your email! A verification link has been sent.",
+    "fullName": "Full Name",
+    "or": "or"
+  },
+  "subscription": {
+    "trialing": "Trial",
+    "active": "Active",
+    "cancelled": "Cancelled",
+    "expired": "Expired",
+    "trialExpired": "Your trial has expired",
+    "subscribeNow": "Subscribe — $4.99/mo",
+    "trialDaysLeft": "{days} days left",
+    "manage": "Manage Subscription",
+    "cancelSubscription": "Cancel Subscription",
+    "paused": "Paused",
+    "notFound": "No subscription information found."
+  },
+  "notes": {
+    "filter": "Filter",
+    "all": "All",
+    "general": "General Notes",
+    "newNote": "New Note",
+    "search": "Search notes...",
+    "count": "{n} notes",
+    "pinned": "Pinned",
+    "others": "Other Notes",
+    "emptyTitle": "No notes yet",
+    "emptyDesc": "Save your study notes, important info, or anything on your mind here.",
+    "createFirst": "Create your first note",
+    "editNote": "Edit Note",
+    "titlePlaceholder": "Note title...",
+    "contentPlaceholder": "Write your note here...",
+    "unsaved": "Unsaved new note",
+    "lastEdited": "Last edited: {date}",
+    "saving": "Saving...",
+    "create": "Create",
+    "selectSubject": "Select subject",
+    "generalNote": "General Note",
+    "selectTopic": "Select topic",
+    "noTopic": "No topic",
+    "savedSuccess": "Note created",
+    "updatedSuccess": "Note updated",
+    "deletedSuccess": "Note deleted",
+    "saveError": "Failed to save note.",
+    "createError": "Failed to create note.",
+    "noResults": "No results found",
+    "justNow": "just now",
+    "minutesAgo": "{n} min ago",
+    "hoursAgo": "{n} hr ago",
+    "daysAgo": "{n} days ago"
+  },
+  "exams": {
+    "addExam": "Add Exam",
+    "editExam": "Edit Exam",
+    "newExam": "Add New Exam",
+    "examName": "Exam Name",
+    "dateTime": "Date and Time",
+    "color": "Color",
+    "save": "Save",
+    "add": "Add",
+    "cancel": "Cancel",
+    "emptyTitle": "No exams added yet",
+    "emptyDesc": "Add your upcoming exams and track the countdown.",
+    "addFirst": "Add your first exam",
+    "nearestExam": "Nearest exam",
+    "upcomingExam": "Upcoming Exam",
+    "allExams": "All Exams",
+    "pastExams": "Past Exams ({count})",
+    "tracking": "{count} exams tracked",
+    "others": "+{count} more",
+    "days": "days",
+    "hours": "hrs",
+    "today": "Today",
+    "todayBang": "Today!",
+    "veryClose": "Very close",
+    "thisWeek": "This week",
+    "completed": "Completed",
+    "hoursLeft": "{h}h {m}m left",
+    "minsLeft": "{m}m left",
+    "daysShort": "{n}d",
+    "examNamePlaceholder": "SAT, Bar Exam, Math Final..."
+  },
+  "subscribe": {
+    "title": "Upgrade to GrindBoard Pro",
+    "subtitle": "Try free for 7 days, cancel anytime.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "yearlyBadge": "33% Off",
+    "monthlyPrice": "$4.99",
+    "yearlyMonthlyPrice": "$3.33",
+    "yearlyTotal": "billed $39.99/year (vs $59.88)",
+    "perMonth": "/mo",
+    "planName": "GrindBoard Pro",
+    "planDesc": "Every tool you need for exam prep, in one place.",
+    "cta": "Get Started",
+    "ctaTrial": "Start 7-Day Free Trial",
+    "alreadyActive": "You are already subscribed",
+    "manageSubscription": "Manage subscription",
+    "features": {
+      "pomodoro": "Unlimited Pomodoro sessions",
+      "schedule": "Weekly study schedule",
+      "topics": "Topic tracking system",
+      "stats": "Detailed stats & charts",
+      "exams": "Exam countdown",
+      "notes": "Study notes",
+      "sync": "Sync across all devices"
+    },
+    "monthlyBilledDesc": "Billed monthly",
+    "yearlySavingsBadge": "4 months free",
+    "yearlySavingsTitle": "Save $19.89 — get 4 months free!",
+    "mostPopular": "Most Popular",
+    "secure": "Secure payment · Lemon Squeezy",
+    "loading": "Redirecting..."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: March 2026",
+    "intro": "At GrindBoard, we value your privacy. This policy explains what data we collect when you use our service and how we use it.",
+    "sections": [
+      {
+        "title": "Data We Collect",
+        "content": "When you create an account, we collect your email address and name. Study sessions, Pomodoro records, weekly schedules, and topic tracking data generated while using the service are also stored in our system. Billing information for payment processing is handled by Lemon Squeezy — we never see your card details."
+      },
+      {
+        "title": "How We Use Your Data",
+        "content": "The data we collect is used solely to manage your account, provide you with the service, and ensure the application functions correctly. We do not sell your data to third parties or use it for advertising purposes."
+      },
+      {
+        "title": "Who We Share Your Data With",
+        "content": "We work with Supabase (database and authentication infrastructure), Lemon Squeezy (payment processing), and Vercel (application hosting). These providers access only the data necessary to perform the service function and are subject to their own privacy policies."
+      },
+      {
+        "title": "Cookies",
+        "content": "We only use essential cookies for session management. We do not use third-party tracking, analytics, or advertising cookies."
+      },
+      {
+        "title": "Data Retention",
+        "content": "Your data is retained as long as your account is active. When you delete your account, all your personal data is permanently removed from our systems."
+      },
+      {
+        "title": "Your Rights",
+        "content": "Under GDPR, you have the right to access, correct, delete, and object to the processing of your data. To exercise these rights, please contact us using the address below."
+      },
+      {
+        "title": "Contact",
+        "content": "For questions about our privacy policy: support@grindboard.org"
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: March 2026",
+    "intro": "Please read these terms before using GrindBoard. By using the service, you agree to these terms.",
+    "sections": [
+      {
+        "title": "Service Description",
+        "content": "GrindBoard is an online educational organization platform that includes a Pomodoro timer, weekly study schedule, topic tracking, and statistics tools."
+      },
+      {
+        "title": "Account Creation",
+        "content": "You must be at least 13 years old to use our service. You are responsible for the security of your account credentials and all activity that occurs under your account."
+      },
+      {
+        "title": "Payment Terms",
+        "content": "GrindBoard Pro is available at $4.99/month or $39.99/year. All new accounts receive a 7-day free trial. No payment is collected during the trial period; the subscription begins automatically after the trial ends."
+      },
+      {
+        "title": "Cancellation Policy",
+        "content": "You can cancel your subscription at any time. Cancellation takes effect immediately, but you retain access to the platform until the end of your current billing period. No charges are made after the period ends."
+      },
+      {
+        "title": "Refund Policy",
+        "content": "For annual subscriptions, you may request a full refund within 14 days of purchase. Monthly subscriptions are non-refundable. Refund requests should be sent to support@grindboard.org."
+      },
+      {
+        "title": "Prohibited Behavior",
+        "content": "It is prohibited to misuse our service, gain unauthorized access to others' accounts, send spam, reverse engineer the software, or use it for any illegal purpose."
+      },
+      {
+        "title": "Service Changes",
+        "content": "Features and prices may change from time to time. You will be notified at your registered email address prior to significant changes."
+      },
+      {
+        "title": "Limitation of Liability",
+        "content": "GrindBoard is an educational organization tool. Exam success or academic outcomes are not guaranteed. Results arising from use of the service are the user's responsibility."
+      },
+      {
+        "title": "Governing Law",
+        "content": "These terms are governed by the laws of the Republic of Turkey. Istanbul courts and enforcement offices have jurisdiction over any disputes."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact",
+    "lastUpdated": "Last updated: March 2026",
+    "emailLabel": "Email",
+    "email": "support@grindboard.org",
+    "responseTime": "We typically respond to messages within 24-48 hours.",
+    "formTitle": "Send Us a Message",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "emailField": "Email",
+    "emailPlaceholder": "example@mail.com",
+    "subject": "Subject",
+    "subjectPlaceholder": "How can we help?",
+    "message": "Message",
+    "messagePlaceholder": "Write your message here...",
+    "submit": "Send",
+    "successTitle": "Message received!",
+    "successDesc": "We'll get back to you as soon as possible. Thank you."
+  }
+}
