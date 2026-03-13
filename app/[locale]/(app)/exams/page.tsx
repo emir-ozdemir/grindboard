@@ -386,9 +386,9 @@ function ExamCard({
 
 // ─── Archived card ─────────────────────────────────────────────────────────────
 
-function ArchivedCard({ exam, onDelete }: { exam: Exam; onDelete: () => void }) {
+function ArchivedCard({ exam, onDelete, locale }: { exam: Exam; onDelete: () => void; locale: string }) {
   const t = useTranslations('exams');
-  const dateStr = new Date(exam.date).toLocaleDateString(undefined, {
+  const dateStr = new Date(exam.date).toLocaleDateString(locale, {
     day: 'numeric', month: 'long', year: 'numeric',
   });
 
@@ -779,7 +779,7 @@ export default function ExamsPage() {
                 className="space-y-2 overflow-hidden"
               >
                 {archived.map((exam) => (
-                  <ArchivedCard key={exam.id} exam={exam} onDelete={() => deleteExam(exam.id)} />
+                  <ArchivedCard key={exam.id} exam={exam} onDelete={() => deleteExam(exam.id)} locale={locale} />
                 ))}
               </motion.div>
             )}
