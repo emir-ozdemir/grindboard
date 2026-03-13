@@ -180,7 +180,7 @@
     "stats": "İstatistikler",
     "exams": "Sınav Geri Sayımı",
     "settings": "Ayarlar",
-    "subscribe": "Pro'ya Geç"
+    "subscribe": "Abonelik"
   },
   "dashboard": {
     "title": "Kontrol Paneli",
@@ -494,7 +494,22 @@
     "yearlySavingsTitle": "$19.89 tasarruf — 4 ay bedava!",
     "mostPopular": "En Popüler",
     "secure": "Güvenli ödeme · Lemon Squeezy",
-    "loading": "Yönlendiriliyor..."
+    "loading": "Yönlendiriliyor...",
+    "managementTitle": "Aboneliğim",
+    "statusLabel": "Durum",
+    "planLabel": "Plan",
+    "periodLabel": "Geçerli dönem",
+    "nextPaymentLabel": "Sonraki ödeme",
+    "memberSinceLabel": "Üye tarihi",
+    "cancelledNotice": "Aboneliğiniz iptal edildi. Mevcut dönem sonuna kadar erişiminiz devam eder.",
+    "expiredNotice": "Aboneliğinizin süresi doldu. Tekrar başlamak için bir plan seçin.",
+    "pausedNotice": "Aboneliğiniz duraklatılmış.",
+    "resubscribe": "Yeniden Abone Ol",
+    "statusActive": "Aktif",
+    "statusTrialing": "Deneme",
+    "statusCancelled": "İptal Edildi",
+    "statusExpired": "Süresi Doldu",
+    "statusPaused": "Duraklatıldı"
   },
   "privacy": {
     "title": "Gizlilik Politikası",

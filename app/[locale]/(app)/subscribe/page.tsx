@@ -1,7 +1,13 @@
 import { createClient } from '@/lib/supabase/server';
 import { SubscribePricing } from '@/components/subscribe/SubscribePricing';
+import type { Locale } from '@/i18n/config';
 
-export default async function SubscribePage() {
+export default async function SubscribePage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -15,6 +21,7 @@ export default async function SubscribePage() {
     <SubscribePricing
       subscription={subscription}
       isTrialing={isTrialing}
+      locale={locale}
     />
   );
 }
