@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plus, Target, CheckCircle2, Circle, Trash2, Edit3,
-  ChevronDown, ChevronUp, Flag, Hash, Calendar,
+  ChevronDown, ChevronUp, Flag, Calendar,
   Flame, TrendingUp, ListChecks, X, Check,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -595,8 +595,6 @@ export function GoalsPage({ subjects }: { subjects: Subject[] }) {
   }, [deleteGoal, t]);
 
   const currentGoals = tabGoals[activeTab];
-  const doneCount = currentGoals.filter(g => g.is_completed).length;
-  const allDone = currentGoals.length > 0 && doneCount === currentGoals.length;
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
