@@ -16,15 +16,18 @@ import {
   GraduationCap,
   NotebookPen,
   Sparkles,
+  Target,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Exam } from '@/lib/hooks/useExams';
+import { getGoalsSidebarSummary } from '@/lib/hooks/useGoals';
 
 const navItems = [
   { key: 'dashboard', icon: LayoutDashboard, href: '/dashboard' },
   { key: 'pomodoro', icon: Timer, href: '/pomodoro' },
   { key: 'schedule', icon: Calendar, href: '/schedule' },
   { key: 'topics', icon: BookMarked, href: '/topics' },
+  { key: 'goals', icon: Target, href: '/goals' },
   { key: 'notes', icon: NotebookPen, href: '/notes' },
   { key: 'stats', icon: BarChart3, href: '/stats' },
   { key: 'exams', icon: GraduationCap, href: '/exams' },
@@ -161,6 +164,56 @@ function NearestExamWidget() {
   );
 }
 
+// ─── Daily Goals Widget ───────────────────────────────────────────────────────
+
+function DailyGoalsWidget() {
+  const [summary, setSummary] = useState<{ todayDone: number; todayTotal: number } | null>(null);
+
+  const update = useCallback(() => {
+    const s = getGoalsSidebarSummary();
+    if (s.todayTotal > 0) setSummary(s);
+    else setSummary(null);
+  }, []);
+
+  useEffect(() => {
+    update();
+    const interval = setInterval(update, 10000);
+    window.addEventListener('goals-updated', update);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('goals-updated', update);
+    };
+  }, [update]);
+
+  const tg = useTranslations('goals');
+  if (!summary) return null;
+
+  const pct = Math.round((summary.todayDone / summary.todayTotal) * 100);
+  const allDone = summary.todayDone === summary.todayTotal;
+
+  return (
+    <div className="mx-3 mb-2 px-3 py-2.5 rounded-xl bg-primary/[0.06] border border-border/30">
+      <div className="flex items-center justify-between mb-1.5">
+        <p className="text-[9px] uppercase tracking-widest text-muted-foreground/60 font-semibold">
+          {tg('todaySummary')}
+        </p>
+        <span className={cn(
+          'text-[10px] font-bold tabular-nums',
+          allDone ? 'text-emerald-500' : 'text-primary'
+        )}>
+          {summary.todayDone}/{summary.todayTotal}
+        </span>
+      </div>
+      <div className="h-1.5 bg-muted/40 rounded-full overflow-hidden">
+        <div
+          className={cn('h-full rounded-full transition-all duration-500', allDone ? 'bg-emerald-500' : 'bg-primary')}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 
 export function Sidebar() {
@@ -210,6 +263,9 @@ export function Sidebar() {
           );
         })}
       </nav>
+
+      {/* Daily goals widget */}
+      <DailyGoalsWidget />
 
       {/* Nearest exam widget */}
       <NearestExamWidget />
