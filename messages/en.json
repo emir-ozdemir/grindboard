@@ -440,6 +440,8 @@
     "others": "+{count} more",
     "days": "days",
     "hours": "hrs",
+    "minutes": "min",
+    "seconds": "sec",
     "today": "Today",
     "todayBang": "Today!",
     "veryClose": "Very close",

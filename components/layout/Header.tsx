@@ -30,6 +30,7 @@ const navKeys: Record<string, string> = {
   stats: 'nav.stats',
   exams: 'nav.exams',
   settings: 'nav.settings',
+  subscribe: 'nav.subscribe',
 };
 
 export function Header({ profile }: HeaderProps) {

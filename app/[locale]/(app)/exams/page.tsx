@@ -3,7 +3,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Pencil, Trash2, ChevronDown, Check, GraduationCap, Clock, Trophy } from 'lucide-react';
+import {
+  Plus, Pencil, Trash2, ChevronDown, Check,
+  GraduationCap, Clock, Trophy, X,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useExams, getCountdown, type Exam } from '@/lib/hooks/useExams';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -14,7 +17,7 @@ const EXAM_COLORS = [
   '#84cc16', '#6366f1',
 ];
 
-// ─── Countdown hook ───────────────────────────────────────────────────────────
+// ─── Countdown hooks ───────────────────────────────────────────────────────────
 
 function useCountdown(date: string) {
   const [cd, setCd] = useState(() => getCountdown(date));
@@ -26,9 +29,201 @@ function useCountdown(date: string) {
   return cd;
 }
 
+function getCountdownWithSeconds(dateStr: string) {
+  const diff = new Date(dateStr).getTime() - Date.now();
+  if (diff <= 0) return null;
+  return {
+    days: Math.floor(diff / 86400000),
+    hours: Math.floor((diff % 86400000) / 3600000),
+    minutes: Math.floor((diff % 3600000) / 60000),
+    seconds: Math.floor((diff % 60000) / 1000),
+    total: diff,
+  };
+}
+
+function useDetailCountdown(date: string, active: boolean) {
+  const [cd, setCd] = useState<ReturnType<typeof getCountdownWithSeconds>>(null);
+  useEffect(() => {
+    if (!active) return;
+    setCd(getCountdownWithSeconds(date));
+    const id = setInterval(() => setCd(getCountdownWithSeconds(date)), 1000);
+    return () => clearInterval(id);
+  }, [date, active]);
+  return cd;
+}
+
+// ─── Full-screen Detail Overlay ────────────────────────────────────────────────
+
+function DetailOverlay({ exam, onClose }: { exam: Exam; onClose: () => void }) {
+  const t = useTranslations('exams');
+  const cd = useDetailCountdown(exam.date, true);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
+
+  const dateStr = new Date(exam.date).toLocaleDateString('tr-TR', {
+    day: 'numeric', month: 'long', year: 'numeric',
+  });
+  const timeStr = new Date(exam.date).toLocaleTimeString('tr-TR', {
+    hour: '2-digit', minute: '2-digit',
+  });
+
+  const created = new Date(exam.createdAt).getTime();
+  const examTime = new Date(exam.date).getTime();
+  const now = Date.now();
+  const progress = examTime > created
+    ? Math.min(100, Math.max(0, ((now - created) / (examTime - created)) * 100))
+    : 100;
+
+  const units = cd ? [
+    { value: cd.days,    label: t('days') },
+    { value: cd.hours,   label: t('hours') },
+    { value: cd.minutes, label: t('minutes') },
+    { value: cd.seconds, label: t('seconds') },
+  ] : [];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.18 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 backdrop-blur-md"
+        style={{
+          background: `radial-gradient(ellipse at 60% 25%, ${exam.color}22 0%, transparent 55%), hsl(var(--background) / 0.96)`,
+        }}
+      />
+
+      {/* Ambient orbs */}
+      <div
+        className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full blur-[130px] opacity-20 pointer-events-none"
+        style={{ backgroundColor: exam.color }}
+      />
+      <div
+        className="absolute bottom-1/4 left-1/4 w-64 h-64 rounded-full blur-[100px] opacity-12 pointer-events-none"
+        style={{ backgroundColor: exam.color }}
+      />
+
+      {/* Panel */}
+      <motion.div
+        initial={{ scale: 0.82, opacity: 0, y: 40 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        transition={{ type: 'spring', stiffness: 270, damping: 24 }}
+        className="relative w-full max-w-lg mx-4 text-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-card/90 hover:bg-card border border-border/60 flex items-center justify-center text-muted-foreground hover:text-foreground shadow-lg transition-all z-10"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        {/* Exam name */}
+        <div className="flex items-center justify-center gap-2.5 mb-2">
+          <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: exam.color }} />
+          <h2 className="text-2xl md:text-3xl font-black tracking-tight">{exam.name}</h2>
+        </div>
+        <p className="text-sm text-muted-foreground mb-10 flex items-center justify-center gap-1.5">
+          <Clock className="w-3.5 h-3.5 shrink-0" />
+          {dateStr}, {timeStr}
+        </p>
+
+        {cd ? (
+          <>
+            {/* Countdown boxes */}
+            <div className="grid grid-cols-4 gap-3 md:gap-4 mb-10">
+              {units.map(({ value, label }, i) => (
+                <motion.div
+                  key={label}
+                  initial={{ opacity: 0, y: 28 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05 + i * 0.07, type: 'spring', stiffness: 220, damping: 22 }}
+                  className="flex flex-col items-center gap-2.5"
+                >
+                  <div
+                    className="w-full aspect-square rounded-2xl border-2 flex items-center justify-center overflow-hidden"
+                    style={{
+                      borderColor: `${exam.color}35`,
+                      background: `linear-gradient(145deg, ${exam.color}18, ${exam.color}06)`,
+                      boxShadow: `0 4px 24px ${exam.color}14`,
+                    }}
+                  >
+                    <AnimatePresence mode="popLayout">
+                      <motion.span
+                        key={value}
+                        initial={{ y: -22, opacity: 0, scale: 0.75 }}
+                        animate={{ y: 0, opacity: 1, scale: 1 }}
+                        exit={{ y: 22, opacity: 0, scale: 0.75 }}
+                        transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+                        className="text-3xl md:text-5xl font-black tabular-nums leading-none"
+                        style={{ color: exam.color, fontFamily: 'var(--font-jetbrains-mono)' }}
+                      >
+                        {String(value).padStart(2, '0')}
+                      </motion.span>
+                    </AnimatePresence>
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                    {label}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Progress bar */}
+            <div className="space-y-1.5">
+              <div className="h-1.5 rounded-full bg-muted/50 overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full"
+                  style={{ backgroundColor: exam.color }}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progress}%` }}
+                  transition={{ duration: 1.5, ease: 'easeOut', delay: 0.3 }}
+                />
+              </div>
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>{t('nearestExam')}</span>
+                <span>{Math.round(progress)}%</span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="py-10"
+          >
+            <Trophy className="w-16 h-16 mx-auto mb-4" style={{ color: exam.color }} />
+            <span className="text-2xl font-black" style={{ color: exam.color }}>{t('completed')}</span>
+          </motion.div>
+        )}
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ─── Exam Card ────────────────────────────────────────────────────────────────
 
-function ExamCard({ exam, onEdit, onDelete }: { exam: Exam; onEdit: () => void; onDelete: () => void }) {
+function ExamCard({
+  exam, onEdit, onDelete, onClick,
+}: {
+  exam: Exam; onEdit: () => void; onDelete: () => void; onClick: () => void;
+}) {
   const t = useTranslations('exams');
   const cd = useCountdown(exam.date);
   const isUrgent = cd !== null && cd.days < 7;
@@ -53,7 +248,8 @@ function ExamCard({ exam, onEdit, onDelete }: { exam: Exam; onEdit: () => void; 
       layout
       whileHover={{ y: -3 }}
       transition={{ duration: 0.2 }}
-      className="group relative rounded-2xl border bg-card overflow-hidden transition-all duration-300 hover:shadow-xl"
+      onClick={onClick}
+      className="group relative rounded-2xl border bg-card overflow-hidden transition-all duration-300 hover:shadow-xl cursor-pointer"
       style={{
         borderColor: isUrgent ? `${exam.color}50` : 'hsl(var(--border) / 0.4)',
         boxShadow: isUrgent ? `0 0 30px ${exam.color}18` : undefined,
@@ -67,7 +263,7 @@ function ExamCard({ exam, onEdit, onDelete }: { exam: Exam; onEdit: () => void; 
       />
 
       <div className="pl-5 pr-4 pt-4 pb-4">
-        {/* Header: name + urgency + actions */}
+        {/* Header */}
         <div className="flex items-start justify-between gap-2 mb-4">
           <div className="flex items-center gap-2 min-w-0">
             <div className="w-2 h-2 rounded-full shrink-0 mt-0.5" style={{ backgroundColor: exam.color }} />
@@ -83,13 +279,13 @@ function ExamCard({ exam, onEdit, onDelete }: { exam: Exam; onEdit: () => void; 
           </div>
           <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
             <button
-              onClick={onEdit}
+              onClick={(e) => { e.stopPropagation(); onEdit(); }}
               className="h-6 w-6 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
             >
               <Pencil className="h-3 w-3" />
             </button>
             <button
-              onClick={onDelete}
+              onClick={(e) => { e.stopPropagation(); onDelete(); }}
               className="h-6 w-6 rounded-md flex items-center justify-center text-muted-foreground hover:text-red-400 hover:bg-red-400/10 transition-all"
             >
               <Trash2 className="h-3 w-3" />
@@ -97,14 +293,11 @@ function ExamCard({ exam, onEdit, onDelete }: { exam: Exam; onEdit: () => void; 
           </div>
         </div>
 
-        {/* ── Countdown hero ── */}
+        {/* Countdown hero */}
         {cd ? (
           <div className="mb-4">
             {isToday ? (
-              <motion.div
-                animate={{ opacity: [1, 0.5, 1] }}
-                transition={{ repeat: Infinity, duration: 1.8 }}
-              >
+              <motion.div animate={{ opacity: [1, 0.5, 1] }} transition={{ repeat: Infinity, duration: 1.8 }}>
                 <span className="text-5xl font-black" style={{ color: exam.color }}>{t('todayBang')}</span>
               </motion.div>
             ) : (
@@ -136,7 +329,7 @@ function ExamCard({ exam, onEdit, onDelete }: { exam: Exam; onEdit: () => void; 
           </div>
         )}
 
-        {/* ── Progress bar ── */}
+        {/* Progress */}
         <div className="space-y-1.5">
           <div className="h-1 rounded-full bg-muted/60 overflow-hidden">
             <motion.div
@@ -157,7 +350,7 @@ function ExamCard({ exam, onEdit, onDelete }: { exam: Exam; onEdit: () => void; 
   );
 }
 
-// ─── Archived card ────────────────────────────────────────────────────────────
+// ─── Archived card ─────────────────────────────────────────────────────────────
 
 function ArchivedCard({ exam, onDelete }: { exam: Exam; onDelete: () => void }) {
   const t = useTranslations('exams');
@@ -188,7 +381,7 @@ function ArchivedCard({ exam, onDelete }: { exam: Exam; onDelete: () => void }) 
   );
 }
 
-// ─── Add / Edit Modal ─────────────────────────────────────────────────────────
+// ─── Add / Edit Modal ──────────────────────────────────────────────────────────
 
 function ExamModal({
   open, onClose, exam, onSave,
@@ -209,9 +402,9 @@ function ExamModal({
     if (open) {
       if (exam) {
         setName(exam.name);
-        const [d, t] = exam.date.includes('T') ? exam.date.split('T') : [exam.date, '09:00'];
+        const [d, tp] = exam.date.includes('T') ? exam.date.split('T') : [exam.date, '09:00'];
         setDatePart(d ?? '');
-        setTimePart((t ?? '09:00').slice(0, 5));
+        setTimePart((tp ?? '09:00').slice(0, 5));
         setColor(exam.color);
       } else {
         setName('');
@@ -253,7 +446,7 @@ function ExamModal({
             />
           </div>
 
-          {/* Date + Time — split to avoid browser year-field UX bug */}
+          {/* Date + Time */}
           <div>
             <label className="text-xs font-medium text-muted-foreground mb-1.5 block">{t('dateTime')}</label>
             <div className="flex gap-2">
@@ -284,7 +477,10 @@ function ExamModal({
                     'w-7 h-7 rounded-full flex items-center justify-center transition-all hover:scale-110 focus:outline-none',
                     color === c && 'ring-2 ring-offset-2 ring-offset-background scale-110',
                   )}
-                  style={{ backgroundColor: c, ...(color === c ? { ringColor: c } : {}) }}
+                  style={{
+                    backgroundColor: c,
+                    ['--tw-ring-color' as string]: color === c ? c : 'transparent',
+                  }}
                 >
                   {color === c && <Check className="h-3.5 w-3.5 text-white" />}
                 </button>
@@ -292,7 +488,7 @@ function ExamModal({
             </div>
           </div>
 
-          {/* Live preview card */}
+          {/* Preview */}
           <AnimatePresence>
             {name && (
               <motion.div
@@ -349,7 +545,7 @@ function ExamModal({
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ExamsPage() {
   const t = useTranslations('exams');
@@ -357,8 +553,8 @@ export default function ExamsPage() {
   const [showModal, setShowModal] = useState(false);
   const [editExam, setEditExam] = useState<Exam | null>(null);
   const [showArchived, setShowArchived] = useState(false);
+  const [selectedExam, setSelectedExam] = useState<Exam | null>(null);
 
-  // Auto-archive past exams
   const checkArchive = useCallback(() => {
     const now = Date.now();
     exams.forEach((e) => {
@@ -366,9 +562,7 @@ export default function ExamsPage() {
     });
   }, [exams, archiveExam]);
 
-  useEffect(() => {
-    checkArchive();
-  }, [checkArchive]);
+  useEffect(() => { checkArchive(); }, [checkArchive]);
 
   const upcoming = exams
     .filter((e) => !e.archived)
@@ -380,14 +574,13 @@ export default function ExamsPage() {
   const openAdd = () => { setEditExam(null); setShowModal(true); };
   const openEdit = (exam: Exam) => { setEditExam(exam); setShowModal(true); };
 
-  // ── Nearest exam (for header spotlight) ──
   const nearest = upcoming[0];
   const nearestCd = nearest ? getCountdown(nearest.date) : null;
 
   return (
     <div className="space-y-6">
 
-      {/* ── Header strip ── */}
+      {/* Header strip */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           {upcoming.length > 0 && (
@@ -407,18 +600,18 @@ export default function ExamsPage() {
         </motion.button>
       </div>
 
-      {/* ── Nearest exam spotlight ── */}
+      {/* Nearest exam spotlight */}
       {nearest && nearestCd && (
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative rounded-2xl border overflow-hidden p-5"
+          onClick={() => setSelectedExam(nearest)}
+          className="relative rounded-2xl border overflow-hidden p-5 cursor-pointer hover:shadow-xl transition-shadow duration-300"
           style={{
             borderColor: `${nearest.color}35`,
             background: `linear-gradient(135deg, ${nearest.color}12 0%, ${nearest.color}05 40%, transparent 70%)`,
           }}
         >
-          {/* Decorative glow */}
           <div
             className="absolute -top-12 -right-12 w-40 h-40 rounded-full blur-3xl opacity-20 pointer-events-none"
             style={{ backgroundColor: nearest.color }}
@@ -451,7 +644,6 @@ export default function ExamsPage() {
               </div>
             </div>
 
-            {/* Days ring indicator */}
             <div className="shrink-0 hidden sm:flex flex-col items-center gap-1">
               <div
                 className="w-16 h-16 rounded-full border-4 flex items-center justify-center"
@@ -467,7 +659,7 @@ export default function ExamsPage() {
         </motion.div>
       )}
 
-      {/* ── Empty state ── */}
+      {/* Empty state */}
       {exams.length === 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -500,7 +692,7 @@ export default function ExamsPage() {
         </motion.div>
       )}
 
-      {/* ── Upcoming grid ── */}
+      {/* Upcoming grid */}
       {upcoming.length > 0 && (
         <div>
           {upcoming.length > 1 && (
@@ -523,6 +715,7 @@ export default function ExamsPage() {
                     exam={exam}
                     onEdit={() => openEdit(exam)}
                     onDelete={() => deleteExam(exam.id)}
+                    onClick={() => setSelectedExam(exam)}
                   />
                 </motion.div>
               ))}
@@ -531,7 +724,7 @@ export default function ExamsPage() {
         </div>
       )}
 
-      {/* ── Archived section ── */}
+      {/* Archived */}
       {archived.length > 0 && (
         <div className="pt-2">
           <button
@@ -558,7 +751,7 @@ export default function ExamsPage() {
         </div>
       )}
 
-      {/* ── Modal ── */}
+      {/* Add/Edit Modal */}
       <ExamModal
         open={showModal}
         onClose={() => setShowModal(false)}
@@ -569,6 +762,13 @@ export default function ExamsPage() {
           setShowModal(false);
         }}
       />
+
+      {/* Full-screen detail overlay */}
+      <AnimatePresence>
+        {selectedExam && (
+          <DetailOverlay exam={selectedExam} onClose={() => setSelectedExam(null)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

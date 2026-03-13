@@ -441,6 +441,8 @@
     "others": "+{count} diğer",
     "days": "gün",
     "hours": "saat",
+    "minutes": "dk",
+    "seconds": "sn",
     "today": "Bugün",
     "todayBang": "Bugün!",
     "veryClose": "Çok yakın",
