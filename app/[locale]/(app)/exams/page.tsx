@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plus, Pencil, Trash2, ChevronDown, Check,
@@ -54,7 +55,7 @@ function useDetailCountdown(date: string, active: boolean) {
 
 // ─── Full-screen Detail Overlay ────────────────────────────────────────────────
 
-function DetailOverlay({ exam, onClose }: { exam: Exam; onClose: () => void }) {
+function DetailOverlay({ exam, onClose, locale }: { exam: Exam; onClose: () => void; locale: string }) {
   const t = useTranslations('exams');
   const cd = useDetailCountdown(exam.date, true);
 
@@ -69,10 +70,10 @@ function DetailOverlay({ exam, onClose }: { exam: Exam; onClose: () => void }) {
     return () => { document.body.style.overflow = ''; };
   }, []);
 
-  const dateStr = new Date(exam.date).toLocaleDateString('tr-TR', {
+  const dateStr = new Date(exam.date).toLocaleDateString(locale, {
     day: 'numeric', month: 'long', year: 'numeric',
   });
-  const timeStr = new Date(exam.date).toLocaleTimeString('tr-TR', {
+  const timeStr = new Date(exam.date).toLocaleTimeString(locale, {
     hour: '2-digit', minute: '2-digit',
   });
 
@@ -253,9 +254,9 @@ function DetailOverlay({ exam, onClose }: { exam: Exam; onClose: () => void }) {
 // ─── Exam Card ────────────────────────────────────────────────────────────────
 
 function ExamCard({
-  exam, onEdit, onDelete, onClick,
+  exam, onEdit, onDelete, onClick, locale,
 }: {
-  exam: Exam; onEdit: () => void; onDelete: () => void; onClick: () => void;
+  exam: Exam; onEdit: () => void; onDelete: () => void; onClick: () => void; locale: string;
 }) {
   const t = useTranslations('exams');
   const cd = useCountdown(exam.date);
@@ -269,10 +270,10 @@ function ExamCard({
     ? Math.min(100, Math.max(0, ((now - created) / (examTime - created)) * 100))
     : 100;
 
-  const dateStr = new Date(exam.date).toLocaleDateString('tr-TR', {
+  const dateStr = new Date(exam.date).toLocaleDateString(locale, {
     day: 'numeric', month: 'long', year: 'numeric',
   });
-  const timeStr = new Date(exam.date).toLocaleTimeString('tr-TR', {
+  const timeStr = new Date(exam.date).toLocaleTimeString(locale, {
     hour: '2-digit', minute: '2-digit',
   });
 
@@ -582,6 +583,7 @@ function ExamModal({
 
 export default function ExamsPage() {
   const t = useTranslations('exams');
+  const { locale } = useParams<{ locale: string }>();
   const { exams, addExam, updateExam, deleteExam, archiveExam } = useExams();
   const [showModal, setShowModal] = useState(false);
   const [editExam, setEditExam] = useState<Exam | null>(null);
@@ -749,6 +751,7 @@ export default function ExamsPage() {
                     onEdit={() => openEdit(exam)}
                     onDelete={() => deleteExam(exam.id)}
                     onClick={() => setSelectedExam(exam)}
+                    locale={locale}
                   />
                 </motion.div>
               ))}
@@ -799,7 +802,7 @@ export default function ExamsPage() {
       {/* Full-screen detail overlay */}
       <AnimatePresence>
         {selectedExam && (
-          <DetailOverlay exam={selectedExam} onClose={() => setSelectedExam(null)} />
+          <DetailOverlay exam={selectedExam} onClose={() => setSelectedExam(null)} locale={locale} />
         )}
       </AnimatePresence>
     </div>
