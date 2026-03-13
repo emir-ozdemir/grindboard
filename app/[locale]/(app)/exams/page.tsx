@@ -96,122 +96,155 @@ function DetailOverlay({ exam, onClose }: { exam: Exam; onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.18 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
       onClick={onClose}
     >
       {/* Backdrop */}
-      <div
-        className="absolute inset-0 backdrop-blur-md"
-        style={{
-          background: `radial-gradient(ellipse at 60% 25%, ${exam.color}22 0%, transparent 55%), hsl(var(--background) / 0.96)`,
-        }}
-      />
+      <div className="absolute inset-0 backdrop-blur-sm bg-background/80 dark:bg-background/90" />
 
-      {/* Ambient orbs */}
+      {/* Ambient orbs — visible mostly in dark */}
       <div
-        className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full blur-[130px] opacity-20 pointer-events-none"
+        className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full blur-[130px] opacity-10 dark:opacity-25 pointer-events-none"
         style={{ backgroundColor: exam.color }}
       />
       <div
-        className="absolute bottom-1/4 left-1/4 w-64 h-64 rounded-full blur-[100px] opacity-12 pointer-events-none"
+        className="absolute bottom-1/3 left-1/4 w-64 h-64 rounded-full blur-[100px] opacity-8 dark:opacity-15 pointer-events-none"
         style={{ backgroundColor: exam.color }}
       />
 
-      {/* Panel */}
+      {/* Card panel */}
       <motion.div
-        initial={{ scale: 0.82, opacity: 0, y: 40 }}
+        initial={{ scale: 0.84, opacity: 0, y: 36 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        exit={{ scale: 0.92, opacity: 0, y: 16 }}
         transition={{ type: 'spring', stiffness: 270, damping: 24 }}
-        className="relative w-full max-w-lg mx-4 text-center"
+        className="relative w-full max-w-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-card/90 hover:bg-card border border-border/60 flex items-center justify-center text-muted-foreground hover:text-foreground shadow-lg transition-all z-10"
-        >
-          <X className="w-4 h-4" />
-        </button>
+        {/* Glass card */}
+        <div className="relative rounded-3xl overflow-hidden bg-card dark:bg-card/40 border border-border/60 dark:border-white/8 shadow-2xl dark:shadow-none">
 
-        {/* Exam name */}
-        <div className="flex items-center justify-center gap-2.5 mb-2">
-          <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: exam.color }} />
-          <h2 className="text-2xl md:text-3xl font-black tracking-tight">{exam.name}</h2>
-        </div>
-        <p className="text-sm text-muted-foreground mb-10 flex items-center justify-center gap-1.5">
-          <Clock className="w-3.5 h-3.5 shrink-0" />
-          {dateStr}, {timeStr}
-        </p>
+          {/* Top color bar */}
+          <div className="h-1 w-full" style={{ backgroundColor: exam.color }} />
 
-        {cd ? (
-          <>
-            {/* Countdown boxes */}
-            <div className="grid grid-cols-4 gap-3 md:gap-4 mb-10">
-              {units.map(({ value, label }, i) => (
-                <motion.div
-                  key={label}
-                  initial={{ opacity: 0, y: 28 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 + i * 0.07, type: 'spring', stiffness: 220, damping: 22 }}
-                  className="flex flex-col items-center gap-2.5"
-                >
-                  <div
-                    className="w-full aspect-square rounded-2xl border-2 flex items-center justify-center overflow-hidden"
-                    style={{
-                      borderColor: `${exam.color}35`,
-                      background: `linear-gradient(145deg, ${exam.color}18, ${exam.color}06)`,
-                      boxShadow: `0 4px 24px ${exam.color}14`,
-                    }}
-                  >
-                    <AnimatePresence mode="popLayout">
-                      <motion.span
-                        key={value}
-                        initial={{ y: -22, opacity: 0, scale: 0.75 }}
-                        animate={{ y: 0, opacity: 1, scale: 1 }}
-                        exit={{ y: 22, opacity: 0, scale: 0.75 }}
-                        transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
-                        className="text-3xl md:text-5xl font-black tabular-nums leading-none"
-                        style={{ color: exam.color, fontFamily: 'var(--font-jetbrains-mono)' }}
+          {/* Subtle inner glow (dark only) */}
+          <div
+            className="absolute inset-0 opacity-0 dark:opacity-100 pointer-events-none rounded-3xl"
+            style={{
+              background: `radial-gradient(ellipse at 50% 0%, ${exam.color}12 0%, transparent 60%)`,
+            }}
+          />
+
+          <div className="relative p-6 md:p-8 text-center">
+            {/* Close button */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-muted/80 hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground transition-all"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Exam color badge + name */}
+            <div className="flex items-center justify-center gap-2.5 mb-1.5">
+              <div
+                className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
+                style={{ backgroundColor: `${exam.color}20`, border: `1.5px solid ${exam.color}40` }}
+              >
+                <GraduationCap className="w-4 h-4" style={{ color: exam.color }} />
+              </div>
+              <h2 className="text-xl md:text-2xl font-black tracking-tight text-left leading-tight">{exam.name}</h2>
+            </div>
+            <p className="text-xs text-muted-foreground mb-8 flex items-center justify-center gap-1.5">
+              <Clock className="w-3 h-3 shrink-0" />
+              {dateStr}, {timeStr}
+            </p>
+
+            {cd ? (
+              <>
+                {/* Countdown boxes */}
+                <div className="grid grid-cols-4 gap-2.5 md:gap-3 mb-8">
+                  {units.map(({ value, label }, i) => (
+                    <motion.div
+                      key={label}
+                      initial={{ opacity: 0, y: 24 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.05 + i * 0.07, type: 'spring', stiffness: 220, damping: 22 }}
+                      className="flex flex-col items-center gap-2"
+                    >
+                      <div
+                        className="w-full aspect-square rounded-2xl flex items-center justify-center overflow-hidden"
+                        style={{
+                          border: `1.5px solid ${exam.color}35`,
+                          background: `linear-gradient(145deg, ${exam.color}14, ${exam.color}06)`,
+                          boxShadow: `0 2px 16px ${exam.color}18, inset 0 1px 0 ${exam.color}20`,
+                        }}
                       >
-                        {String(value).padStart(2, '0')}
-                      </motion.span>
-                    </AnimatePresence>
-                  </div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                    {label}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
+                        <AnimatePresence mode="popLayout">
+                          <motion.span
+                            key={value}
+                            initial={{ y: -18, opacity: 0, scale: 0.8 }}
+                            animate={{ y: 0, opacity: 1, scale: 1 }}
+                            exit={{ y: 18, opacity: 0, scale: 0.8 }}
+                            transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+                            className="text-2xl md:text-4xl font-black tabular-nums leading-none"
+                            style={{ color: exam.color, fontFamily: 'var(--font-jetbrains-mono)' }}
+                          >
+                            {String(value).padStart(2, '0')}
+                          </motion.span>
+                        </AnimatePresence>
+                      </div>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                        {label}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
 
-            {/* Progress bar */}
-            <div className="space-y-1.5">
-              <div className="h-1.5 rounded-full bg-muted/50 overflow-hidden">
-                <motion.div
-                  className="h-full rounded-full"
-                  style={{ backgroundColor: exam.color }}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 1.5, ease: 'easeOut', delay: 0.3 }}
-                />
-              </div>
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>{t('nearestExam')}</span>
-                <span>{Math.round(progress)}%</span>
-              </div>
-            </div>
-          </>
-        ) : (
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="py-10"
-          >
-            <Trophy className="w-16 h-16 mx-auto mb-4" style={{ color: exam.color }} />
-            <span className="text-2xl font-black" style={{ color: exam.color }}>{t('completed')}</span>
-          </motion.div>
-        )}
+                {/* Divider */}
+                <div className="h-px bg-border/50 mb-5" />
+
+                {/* Progress */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
+                    <span className="font-medium">{t('tracking', { count: 1 })}</span>
+                    <span
+                      className="font-semibold tabular-nums"
+                      style={{ color: exam.color }}
+                    >
+                      {Math.round(progress)}%
+                    </span>
+                  </div>
+                  <div className="h-2 rounded-full bg-muted/60 overflow-hidden">
+                    <motion.div
+                      className="h-full rounded-full"
+                      style={{
+                        backgroundColor: exam.color,
+                        boxShadow: `0 0 8px ${exam.color}60`,
+                      }}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${progress}%` }}
+                      transition={{ duration: 1.5, ease: 'easeOut', delay: 0.3 }}
+                    />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="py-8"
+              >
+                <div
+                  className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center"
+                  style={{ backgroundColor: `${exam.color}15`, border: `1.5px solid ${exam.color}30` }}
+                >
+                  <Trophy className="w-8 h-8" style={{ color: exam.color }} />
+                </div>
+                <span className="text-xl font-black" style={{ color: exam.color }}>{t('completed')}</span>
+              </motion.div>
+            )}
+          </div>
+        </div>
       </motion.div>
     </motion.div>
   );
