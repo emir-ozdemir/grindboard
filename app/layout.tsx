@@ -17,8 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GrindBoard — Sınavlara Hazırlığın Merkezi",
-  description: "Pomodoro zamanlayıcı, ders programı ve konu takibi ile çalışmalarını organize et.",
+  title: "GrindBoard",
 };
 
 export default function RootLayout({
