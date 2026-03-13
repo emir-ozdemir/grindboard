@@ -13,16 +13,18 @@ export default async function StatsPage({
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  // 90-day sessions with subjects (for charts + subject leaderboard)
+  const ninetyDaysAgo = new Date();
+  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 
   const { data: sessions } = await supabase
     .from('study_sessions')
     .select('*, subject:subjects(name, color)')
     .eq('user_id', user.id)
-    .gte('started_at', thirtyDaysAgo.toISOString())
-    .order('started_at', { ascending: false });
+    .gte('started_at', ninetyDaysAgo.toISOString())
+    .order('started_at', { ascending: true });
 
+  // Topics for completion rate
   const { data: topics } = await supabase
     .from('topics')
     .select('status')
@@ -32,23 +34,25 @@ export default async function StatsPage({
   const completedTopics = topics?.filter((t: { status: string }) => t.status === 'completed').length || 0;
   const topicCompletionRate = totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
 
-  // Calculate streak
-  const allSessions = await supabase
+  // All sessions for streak + heatmap + productivity analysis
+  const { data: allSessionsData } = await supabase
     .from('study_sessions')
-    .select('started_at')
+    .select('started_at, duration_minutes')
     .eq('user_id', user.id)
     .order('started_at', { ascending: false });
 
+  // Streak calculation
   let currentStreak = 0;
   let longestStreak = 0;
 
-  if (allSessions.data && allSessions.data.length > 0) {
-    const format = (d: Date) => d.toISOString().slice(0, 10);
-    const uniqueDays: string[] = Array.from(new Set(allSessions.data.map((s: { started_at: string }) => format(new Date(s.started_at)))));
+  if (allSessionsData && allSessionsData.length > 0) {
+    const fmt = (d: Date) => d.toISOString().slice(0, 10);
+    const uniqueDays: string[] = Array.from(
+      new Set(allSessionsData.map((s: { started_at: string }) => fmt(new Date(s.started_at))))
+    );
 
     const checkDate = new Date();
-
-    while (uniqueDays.includes(format(checkDate))) {
+    while (uniqueDays.includes(fmt(checkDate))) {
       currentStreak++;
       checkDate.setDate(checkDate.getDate() - 1);
     }
@@ -68,6 +72,33 @@ export default async function StatsPage({
     longestStreak = Math.max(longestStreak, currentStreak);
   }
 
+  // Build heatmap data: date string → total minutes
+  const heatmapData: Record<string, number> = {};
+  allSessionsData?.forEach((s: { started_at: string; duration_minutes: number }) => {
+    const dateStr = s.started_at.slice(0, 10);
+    heatmapData[dateStr] = (heatmapData[dateStr] || 0) + s.duration_minutes;
+  });
+
+  // Most productive day of week (0 = Sun … 6 = Sat)
+  const dayTotals = [0, 0, 0, 0, 0, 0, 0];
+  allSessionsData?.forEach((s: { started_at: string; duration_minutes: number }) => {
+    dayTotals[new Date(s.started_at).getDay()] += s.duration_minutes;
+  });
+  const mostProductiveDayIndex = dayTotals.some((d) => d > 0)
+    ? dayTotals.indexOf(Math.max(...dayTotals))
+    : -1;
+
+  // Most productive hour (0–23)
+  const hourTotals = Array<number>(24).fill(0);
+  allSessionsData?.forEach((s: { started_at: string; duration_minutes: number }) => {
+    hourTotals[new Date(s.started_at).getHours()] += s.duration_minutes;
+  });
+  const mostProductiveHour = hourTotals.some((h) => h > 0)
+    ? hourTotals.indexOf(Math.max(...hourTotals))
+    : -1;
+
+  const totalSessionCount = allSessionsData?.length || 0;
+
   return (
     <div className="space-y-6">
       <StatsCharts
@@ -75,6 +106,10 @@ export default async function StatsPage({
         currentStreak={currentStreak}
         longestStreak={longestStreak}
         topicCompletionRate={topicCompletionRate}
+        heatmapData={heatmapData}
+        mostProductiveDayIndex={mostProductiveDayIndex}
+        mostProductiveHour={mostProductiveHour}
+        totalSessionCount={totalSessionCount}
         locale={locale}
       />
     </div>
