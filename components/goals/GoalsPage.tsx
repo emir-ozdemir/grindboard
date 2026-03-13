@@ -17,18 +17,18 @@ import type { Subject } from '@/types/database';
 
 async function fireConfetti() {
   const confetti = (await import('canvas-confetti')).default;
-  confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 }, colors: ['#f59e0b', '#fbbf24', '#d97706', '#10b981', '#34d399'] });
+  confetti({ particleCount: 100, spread: 80, origin: { y: 0.55 }, colors: ['#f59e0b', '#fbbf24', '#d97706', '#10b981', '#34d399'] });
 }
 
-// ── Priority badge ─────────────────────────────────────────────────────────────
+// ── Priority config ────────────────────────────────────────────────────────────
 
 const PRIORITY_CONFIG = {
-  low:    { color: 'text-blue-500',   bg: 'bg-blue-500/10 border-blue-500/25' },
-  medium: { color: 'text-amber-500',  bg: 'bg-amber-500/10 border-amber-500/25' },
-  high:   { color: 'text-red-500',    bg: 'bg-red-500/10 border-red-500/25' },
+  low:    { color: 'text-blue-500',   bg: 'bg-blue-500/10 border-blue-500/25',   bar: 'bg-blue-500',   left: 'bg-blue-500/60' },
+  medium: { color: 'text-amber-500',  bg: 'bg-amber-500/10 border-amber-500/25', bar: 'bg-amber-500',  left: 'bg-amber-500/70' },
+  high:   { color: 'text-red-500',    bg: 'bg-red-500/10 border-red-500/25',     bar: 'bg-red-500',    left: 'bg-red-500/70' },
 };
 
-// ── Add/Edit Modal ─────────────────────────────────────────────────────────────
+// ── Goal Form ─────────────────────────────────────────────────────────────────
 
 interface GoalFormData {
   title: string;
@@ -53,11 +53,7 @@ const DEFAULT_FORM: GoalFormData = {
 };
 
 function GoalModal({
-  open,
-  goal,
-  subjects,
-  onClose,
-  onSave,
+  open, goal, subjects, onClose, onSave,
 }: {
   open: boolean;
   goal: Goal | null;
@@ -66,6 +62,7 @@ function GoalModal({
   onSave: (data: GoalFormData) => Promise<void>;
 }) {
   const t = useTranslations('goals');
+  const tc = useTranslations('common');
   const [form, setForm] = useState<GoalFormData>(DEFAULT_FORM);
   const [saving, setSaving] = useState(false);
 
@@ -98,45 +95,50 @@ function GoalModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
       <motion.div
-        initial={{ y: 40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 40, opacity: 0 }}
-        transition={{ duration: 0.25 }}
-        className="relative w-full max-w-md bg-card border border-border/50 rounded-2xl shadow-2xl overflow-hidden"
+        initial={{ y: 50, opacity: 0, scale: 0.96 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ y: 50, opacity: 0, scale: 0.96 }}
+        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        className="relative w-full max-w-lg bg-card border border-border/60 rounded-2xl shadow-2xl overflow-hidden"
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border/40">
-          <h2 className="font-bold text-base">{goal ? t('editGoal') : t('addGoal')}</h2>
-          <button onClick={onClose} className="w-7 h-7 rounded-lg hover:bg-muted/50 flex items-center justify-center">
-            <X className="w-4 h-4" />
+        {/* Top accent bar */}
+        <div className="h-1 bg-gradient-to-r from-amber-400 via-primary to-amber-600" />
+
+        <div className="flex items-center justify-between px-6 py-4 border-b border-border/40">
+          <h2 className="font-bold text-lg">{goal ? t('editGoal') : t('addGoal')}</h2>
+          <button onClick={onClose} className="w-8 h-8 rounded-xl hover:bg-muted/60 flex items-center justify-center transition-colors">
+            <X className="w-4 h-4 text-muted-foreground" />
           </button>
         </div>
 
-        <div className="p-5 space-y-4 max-h-[70vh] overflow-y-auto">
+        <div className="p-6 space-y-5 max-h-[70vh] overflow-y-auto">
           {/* Title */}
           <div>
-            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+            <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2 block">
               {t('goalTitle')}
             </label>
             <input
+              autoFocus
               value={form.title}
               onChange={e => set('title', e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSave()}
               placeholder={t('goalTitlePlaceholder')}
-              className="w-full px-3 py-2.5 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/50 focus:bg-muted/50 transition-colors"
+              className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-base outline-none focus:border-primary/60 focus:bg-muted/50 transition-colors"
             />
           </div>
 
           {/* Category + Priority */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2 block">
                 {t('category')}
               </label>
               <select
                 value={form.category}
                 onChange={e => set('category', e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/50 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/60 transition-colors"
               >
                 <option value="daily">{t('daily')}</option>
                 <option value="weekly">{t('weekly')}</option>
@@ -144,13 +146,13 @@ function GoalModal({
               </select>
             </div>
             <div>
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2 block">
                 {t('priority')}
               </label>
               <select
                 value={form.priority}
                 onChange={e => set('priority', e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/50 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/60 transition-colors"
               >
                 <option value="low">{t('priorityLow')}</option>
                 <option value="medium">{t('priorityMedium')}</option>
@@ -161,19 +163,19 @@ function GoalModal({
 
           {/* Progress type */}
           <div>
-            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+            <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2 block">
               {t('progressType')}
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-3">
               {(['checkbox', 'numeric'] as const).map(pt => (
                 <button
                   key={pt}
                   type="button"
                   onClick={() => set('progress_type', pt)}
                   className={cn(
-                    'px-3 py-2 rounded-xl text-sm font-medium border transition-colors',
+                    'px-4 py-3 rounded-xl text-sm font-semibold border transition-all',
                     form.progress_type === pt
-                      ? 'bg-primary/10 border-primary/40 text-primary'
+                      ? 'bg-primary/10 border-primary/50 text-primary shadow-sm'
                       : 'bg-muted/20 border-border/40 text-muted-foreground hover:bg-muted/40'
                   )}
                 >
@@ -186,7 +188,7 @@ function GoalModal({
           {/* Numeric target */}
           {form.progress_type === 'numeric' && (
             <div>
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2 block">
                 {t('progressTarget')}
               </label>
               <input
@@ -194,7 +196,7 @@ function GoalModal({
                 min={1}
                 value={form.progress_target}
                 onChange={e => set('progress_target', Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-full px-3 py-2.5 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/50 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/60 transition-colors"
               />
             </div>
           )}
@@ -202,13 +204,13 @@ function GoalModal({
           {/* Subject */}
           {subjects.length > 0 && (
             <div>
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2 block">
                 {t('selectSubject')}
               </label>
               <select
                 value={form.subject_id}
                 onChange={e => set('subject_id', e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/50 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/60 transition-colors"
               >
                 <option value="">{t('noSubject')}</option>
                 {subjects.map(s => (
@@ -221,21 +223,21 @@ function GoalModal({
           {/* Target date (only for general) */}
           {form.category === 'general' && (
             <div>
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+              <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2 block">
                 {t('targetDate')}
               </label>
               <input
                 type="date"
                 value={form.target_date}
                 onChange={e => set('target_date', e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/50 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/60 transition-colors"
               />
             </div>
           )}
 
           {/* Note */}
           <div>
-            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5 block">
+            <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2 block">
               {t('note')}
             </label>
             <textarea
@@ -243,28 +245,27 @@ function GoalModal({
               onChange={e => set('note', e.target.value)}
               placeholder={t('notePlaceholder')}
               rows={2}
-              className="w-full px-3 py-2.5 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/50 transition-colors resize-none"
+              className="w-full px-4 py-3 rounded-xl bg-muted/30 border border-border/50 text-sm outline-none focus:border-primary/60 transition-colors resize-none"
             />
           </div>
         </div>
 
-        <div className="px-5 py-4 border-t border-border/40 flex gap-3">
+        <div className="px-6 py-4 border-t border-border/40 flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 py-2.5 rounded-xl border border-border/50 text-sm font-medium hover:bg-muted/30 transition-colors"
+            className="flex-1 py-3 rounded-xl border border-border/50 text-sm font-semibold hover:bg-muted/30 transition-colors"
           >
-            {/* common.cancel */}
-            İptal
+            {tc('cancel')}
           </button>
           <button
             onClick={handleSave}
             disabled={saving || !form.title.trim()}
-            className="flex-1 py-2.5 rounded-xl btn-gradient text-white text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="flex-1 py-3 rounded-xl btn-gradient text-white text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
           >
             {saving ? (
               <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />{t('saving')}</>
             ) : (
-              <><Check className="w-4 h-4" />{t('addGoal')}</>
+              <><Check className="w-4 h-4" />{goal ? tc('save') : t('addGoal')}</>
             )}
           </button>
         </div>
@@ -276,12 +277,7 @@ function GoalModal({
 // ── Goal Item ──────────────────────────────────────────────────────────────────
 
 function GoalItem({
-  goal,
-  subjects,
-  onToggle,
-  onSetProgress,
-  onEdit,
-  onDelete,
+  goal, subjects, onToggle, onSetProgress, onEdit, onDelete,
 }: {
   goal: Goal;
   subjects: Subject[];
@@ -301,109 +297,122 @@ function GoalItem({
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 8 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, x: -20 }}
+      exit={{ opacity: 0, x: -24 }}
+      transition={{ duration: 0.2 }}
       className={cn(
-        'group rounded-xl border transition-all duration-200',
+        'group relative flex rounded-2xl border overflow-hidden transition-all duration-200',
         goal.is_completed
-          ? 'border-border/20 bg-muted/10'
-          : 'border-border/40 bg-card hover:border-border/70'
+          ? 'border-border/20 bg-muted/5'
+          : 'border-border/40 bg-card hover:border-border/70 hover:shadow-md dark:hover:shadow-black/20'
       )}
     >
-      <div className="flex items-start gap-3 p-3.5">
+      {/* Priority left accent bar */}
+      {!goal.is_completed && (
+        <div className={cn('w-1 shrink-0', pCfg.left)} />
+      )}
+
+      <div className="flex items-start gap-4 p-5 flex-1 min-w-0">
         {/* Checkbox */}
         <button
           onClick={onToggle}
-          className="mt-0.5 shrink-0 transition-transform hover:scale-110"
+          className="shrink-0 mt-0.5 transition-all duration-200 hover:scale-110 active:scale-95"
         >
           {goal.is_completed
-            ? <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-            : <Circle className="w-5 h-5 text-muted-foreground/50 hover:text-primary" />
+            ? <CheckCircle2 className="w-6 h-6 text-emerald-500" />
+            : <Circle className={cn('w-6 h-6 transition-colors', pCfg.color, 'opacity-50 hover:opacity-100')} />
           }
         </button>
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className={cn(
-              'text-sm font-medium leading-snug',
-              goal.is_completed ? 'line-through text-muted-foreground/50' : 'text-foreground'
-            )}>
-              {goal.title}
-            </span>
-            {/* Priority badge */}
-            <span className={cn(
-              'inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md border',
-              pCfg.bg, pCfg.color
-            )}>
-              <Flag className="w-2.5 h-2.5" />
-              {t(goal.priority)}
-            </span>
-            {/* Subject dot */}
-            {subject && (
-              <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                <span className="w-2 h-2 rounded-full" style={{ background: subject.color }} />
-                {subject.name}
-              </span>
-            )}
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <p className={cn(
+                'text-base font-semibold leading-snug',
+                goal.is_completed ? 'line-through text-muted-foreground/40' : 'text-foreground'
+              )}>
+                {goal.title}
+              </p>
+
+              {/* Meta row */}
+              <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                <span className={cn(
+                  'inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full border',
+                  pCfg.bg, pCfg.color
+                )}>
+                  <Flag className="w-2.5 h-2.5" />
+                  {t(goal.priority)}
+                </span>
+                {subject && (
+                  <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground font-medium">
+                    <span className="w-2 h-2 rounded-full shrink-0" style={{ background: subject.color }} />
+                    {subject.name}
+                  </span>
+                )}
+                {goal.target_date && (
+                  <span className="flex items-center gap-1 text-[11px] text-muted-foreground/60">
+                    <Calendar className="w-3 h-3" />
+                    {goal.target_date}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Actions (always visible on mobile, hover on desktop) */}
+            <div className="flex items-center gap-1 shrink-0 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+              {goal.progress_type === 'numeric' && !goal.is_completed && (
+                <div className="flex items-center gap-0.5 mr-1">
+                  <button
+                    onClick={() => onSetProgress(goal.progress_current - 1)}
+                    className="w-7 h-7 rounded-lg hover:bg-muted/70 flex items-center justify-center text-base font-bold text-muted-foreground hover:text-foreground transition-colors"
+                  >−</button>
+                  <button
+                    onClick={() => onSetProgress(goal.progress_current + 1)}
+                    className="w-7 h-7 rounded-lg hover:bg-muted/70 flex items-center justify-center text-base font-bold text-muted-foreground hover:text-foreground transition-colors"
+                  >+</button>
+                </div>
+              )}
+              <button onClick={onEdit} className="w-8 h-8 rounded-xl hover:bg-muted/60 flex items-center justify-center transition-colors">
+                <Edit3 className="w-4 h-4 text-muted-foreground" />
+              </button>
+              <button onClick={onDelete} className="w-8 h-8 rounded-xl hover:bg-red-500/10 flex items-center justify-center transition-colors">
+                <Trash2 className="w-4 h-4 text-muted-foreground hover:text-red-500 transition-colors" />
+              </button>
+            </div>
           </div>
 
-          {/* Numeric progress */}
-          {goal.progress_type === 'numeric' && !goal.is_completed && (
-            <div className="mt-2 flex items-center gap-2">
-              <div className="flex-1 h-1.5 bg-muted/40 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-primary transition-all duration-300"
-                  style={{ width: `${pct}%` }}
+          {/* Numeric progress bar */}
+          {goal.progress_type === 'numeric' && (
+            <div className="mt-3 space-y-1.5">
+              <div className="h-2 bg-muted/40 rounded-full overflow-hidden">
+                <motion.div
+                  className={cn('h-full rounded-full', pCfg.bar)}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${pct}%` }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
                 />
               </div>
-              <span className="text-xs text-muted-foreground tabular-nums">
-                {goal.progress_current}{t('of')}{goal.progress_target}
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-muted-foreground/60">{pct}%</span>
+                <span className={cn('text-xs font-bold tabular-nums', pCfg.color)}>
+                  {goal.progress_current}{t('of')}{goal.progress_target}
+                </span>
+              </div>
             </div>
           )}
 
-          {/* Target date */}
-          {goal.target_date && (
-            <div className="flex items-center gap-1 mt-1.5 text-[11px] text-muted-foreground/60">
-              <Calendar className="w-3 h-3" />
-              {goal.target_date}
-            </div>
-          )}
-
-          {/* Note (expandable) */}
+          {/* Expandable note */}
           {goal.note && (
             <button
               onClick={() => setExpanded(e => !e)}
-              className="flex items-center gap-1 mt-1.5 text-[11px] text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+              className="flex items-center gap-1 mt-2 text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
             >
               {expanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-              {expanded ? goal.note : goal.note.slice(0, 40) + (goal.note.length > 40 ? '...' : '')}
+              <span>{expanded ? goal.note : goal.note.slice(0, 60) + (goal.note.length > 60 ? '...' : '')}</span>
             </button>
           )}
-        </div>
-
-        {/* Actions */}
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-          {goal.progress_type === 'numeric' && !goal.is_completed && (
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => onSetProgress(goal.progress_current - 1)}
-                className="w-6 h-6 rounded-md hover:bg-muted/50 flex items-center justify-center text-xs font-bold"
-              >−</button>
-              <button
-                onClick={() => onSetProgress(goal.progress_current + 1)}
-                className="w-6 h-6 rounded-md hover:bg-muted/50 flex items-center justify-center text-xs font-bold"
-              >+</button>
-            </div>
-          )}
-          <button onClick={onEdit} className="w-7 h-7 rounded-lg hover:bg-muted/50 flex items-center justify-center">
-            <Edit3 className="w-3.5 h-3.5 text-muted-foreground" />
-          </button>
-          <button onClick={onDelete} className="w-7 h-7 rounded-lg hover:bg-red-500/10 flex items-center justify-center">
-            <Trash2 className="w-3.5 h-3.5 text-muted-foreground hover:text-red-500 transition-colors" />
-          </button>
         </div>
       </div>
     </motion.div>
@@ -419,47 +428,60 @@ function SummaryCards({ dailyGoals, weeklyGoals, generalGoals }: {
 }) {
   const t = useTranslations('goals');
   const cards = [
-    {
-      icon: Flame,
-      label: t('todaySummary'),
-      goals: dailyGoals,
-      color: 'text-amber-500',
-      bg: 'bg-amber-500/10 border-amber-500/20',
-    },
-    {
-      icon: TrendingUp,
-      label: t('weekSummary'),
-      goals: weeklyGoals,
-      color: 'text-violet-500',
-      bg: 'bg-violet-500/10 border-violet-500/20',
-    },
-    {
-      icon: ListChecks,
-      label: t('generalSummary'),
-      goals: generalGoals,
-      color: 'text-emerald-500',
-      bg: 'bg-emerald-500/10 border-emerald-500/20',
-    },
+    { icon: Flame,      label: t('todaySummary'),   goals: dailyGoals,   iconColor: 'text-amber-500', accent: 'from-amber-500/20 to-amber-500/5', border: 'border-amber-500/25', ring: 'ring-amber-500/30' },
+    { icon: TrendingUp, label: t('weekSummary'),    goals: weeklyGoals,  iconColor: 'text-violet-500', accent: 'from-violet-500/20 to-violet-500/5', border: 'border-violet-500/25', ring: 'ring-violet-500/30' },
+    { icon: ListChecks, label: t('generalSummary'), goals: generalGoals, iconColor: 'text-emerald-500', accent: 'from-emerald-500/20 to-emerald-500/5', border: 'border-emerald-500/25', ring: 'ring-emerald-500/30' },
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-3">
-      {cards.map(({ icon: Icon, label, goals, color, bg }) => {
+    <div className="grid grid-cols-3 gap-4">
+      {cards.map(({ icon: Icon, label, goals, iconColor, accent, border, ring }, idx) => {
         const done = goals.filter(g => g.is_completed).length;
         const total = goals.length;
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+        const allDone = total > 0 && done === total;
+
         return (
           <motion.div
             key={label}
-            initial={{ y: 12, opacity: 0 }}
+            initial={{ y: 16, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className={cn('rounded-xl border p-3.5', bg)}
+            transition={{ delay: idx * 0.06 }}
+            className={cn(
+              'relative rounded-2xl border overflow-hidden p-5',
+              border,
+              allDone ? 'ring-2 ' + ring : ''
+            )}
+            style={{ background: `linear-gradient(135deg, var(--card) 0%, transparent 100%)` }}
           >
-            <div className={cn('w-8 h-8 rounded-lg bg-background/50 flex items-center justify-center mb-2', bg)}>
-              <Icon className={cn('w-4 h-4', color)} />
-            </div>
-            <div className="text-[11px] text-muted-foreground font-medium">{label}</div>
-            <div className={cn('text-xl font-extrabold tabular-nums mt-0.5', color)}>
-              {done}<span className="text-sm font-semibold text-muted-foreground">/{total}</span>
+            {/* Gradient overlay */}
+            <div className={cn('absolute inset-0 bg-gradient-to-br opacity-40', accent)} />
+
+            <div className="relative">
+              <div className={cn(
+                'w-10 h-10 rounded-xl flex items-center justify-center mb-3',
+                'bg-background/60 border',
+                border
+              )}>
+                <Icon className={cn('w-5 h-5', iconColor)} />
+              </div>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{label}</p>
+              <div className="flex items-end gap-1.5 mt-1">
+                <span className={cn('text-3xl font-extrabold tabular-nums leading-none', iconColor)}>{done}</span>
+                <span className="text-base text-muted-foreground font-semibold mb-0.5">/{total}</span>
+              </div>
+
+              {/* Mini progress bar */}
+              {total > 0 && (
+                <div className="mt-3 h-1.5 bg-muted/30 rounded-full overflow-hidden">
+                  <motion.div
+                    className={cn('h-full rounded-full', allDone ? 'bg-emerald-500' : iconColor.replace('text-', 'bg-'))}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${pct}%` }}
+                    transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 + idx * 0.1 }}
+                  />
+                </div>
+              )}
             </div>
           </motion.div>
         );
@@ -468,16 +490,10 @@ function SummaryCards({ dailyGoals, weeklyGoals, generalGoals }: {
   );
 }
 
-// ── Tab Panel ──────────────────────────────────────────────────────────────────
+// ── Goal List ──────────────────────────────────────────────────────────────────
 
 function GoalList({
-  goals,
-  subjects,
-  onToggle,
-  onSetProgress,
-  onEdit,
-  onDelete,
-  emptyMessage,
+  goals, subjects, onToggle, onSetProgress, onEdit, onDelete, emptyMessage,
 }: {
   goals: Goal[];
   subjects: Subject[];
@@ -487,16 +503,33 @@ function GoalList({
   onDelete: (g: Goal) => void;
   emptyMessage: string;
 }) {
+  const t = useTranslations('goals');
+
   if (goals.length === 0) {
     return (
-      <div className="py-16 text-center">
-        <Target className="w-10 h-10 text-muted-foreground/30 mx-auto mb-3" />
-        <p className="text-sm text-muted-foreground">{emptyMessage}</p>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="py-20 flex flex-col items-center text-center gap-4"
+      >
+        <div className="relative">
+          <div className="w-20 h-20 rounded-2xl bg-muted/30 border border-border/30 flex items-center justify-center">
+            <Target className="w-10 h-10 text-muted-foreground/30" />
+          </div>
+          <motion.div
+            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
+            transition={{ repeat: Infinity, duration: 3 }}
+            className="absolute inset-0 rounded-2xl bg-primary/5"
+          />
+        </div>
+        <div>
+          <p className="text-base font-semibold text-muted-foreground">{emptyMessage}</p>
+          <p className="text-sm text-muted-foreground/50 mt-1">{t('noGoalsDesc')}</p>
+        </div>
+      </motion.div>
     );
   }
 
-  // Sort: incomplete first, then by priority (high→low)
   const priorityOrder: Record<Goal['priority'], number> = { high: 0, medium: 1, low: 2 };
   const sorted = [...goals].sort((a, b) => {
     if (a.is_completed !== b.is_completed) return a.is_completed ? 1 : -1;
@@ -504,7 +537,7 @@ function GoalList({
   });
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <AnimatePresence>
         {sorted.map(goal => (
           <GoalItem
@@ -527,6 +560,8 @@ function GoalList({
 const TABS = ['daily', 'weekly', 'general'] as const;
 type Tab = typeof TABS[number];
 
+const TAB_ICONS = { daily: Flame, weekly: TrendingUp, general: ListChecks };
+
 export function GoalsPage({ subjects }: { subjects: Subject[] }) {
   const t = useTranslations('goals');
   const {
@@ -539,7 +574,6 @@ export function GoalsPage({ subjects }: { subjects: Subject[] }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [editGoal, setEditGoal] = useState<Goal | null>(null);
   const [celebratingTab, setCelebratingTab] = useState<Tab | null>(null);
-
   const prevCompleted = useRef<Record<Tab, number>>({ daily: -1, weekly: -1, general: -1 });
 
   const tabGoals: Record<Tab, Goal[]> = {
@@ -548,18 +582,15 @@ export function GoalsPage({ subjects }: { subjects: Subject[] }) {
     general: generalGoals,
   };
 
-  // Fire confetti when all goals in a tab become complete
   useEffect(() => {
     for (const tab of TABS) {
       const goals = tabGoals[tab];
       if (goals.length === 0) continue;
       const done = goals.filter(g => g.is_completed).length;
-      if (done === goals.length && prevCompleted.current[tab] !== goals.length) {
-        if (prevCompleted.current[tab] !== -1) {
-          setCelebratingTab(tab);
-          fireConfetti();
-          setTimeout(() => setCelebratingTab(null), 3000);
-        }
+      if (done === goals.length && prevCompleted.current[tab] !== -1 && prevCompleted.current[tab] !== goals.length) {
+        setCelebratingTab(tab);
+        fireConfetti();
+        setTimeout(() => setCelebratingTab(null), 3500);
       }
       prevCompleted.current[tab] = done;
     }
@@ -569,11 +600,7 @@ export function GoalsPage({ subjects }: { subjects: Subject[] }) {
   const openAdd = () => { setEditGoal(null); setModalOpen(true); };
   const openEdit = (g: Goal) => { setEditGoal(g); setModalOpen(true); };
 
-  const handleSave = useCallback(async (data: {
-    title: string; category: Goal['category']; priority: Goal['priority'];
-    progress_type: Goal['progress_type']; progress_target: number;
-    subject_id: string; target_date: string; note: string;
-  }) => {
+  const handleSave = useCallback(async (data: GoalFormData) => {
     const payload = {
       ...data,
       subject_id: data.subject_id || null,
@@ -597,64 +624,62 @@ export function GoalsPage({ subjects }: { subjects: Subject[] }) {
   const currentGoals = tabGoals[activeTab];
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      {/* Header */}
+    <div className="max-w-3xl mx-auto space-y-7">
+      {/* ── Header ── */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight">{t('title')}</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">{t('dailyResetNote')}</p>
+          <h1 className="text-3xl font-extrabold tracking-tight">{t('title')}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{t('dailyResetNote')}</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           onClick={openAdd}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl btn-gradient text-white text-sm font-bold shadow-lg"
+          className="flex items-center gap-2 px-5 py-3 rounded-xl btn-gradient text-white font-bold shadow-lg text-sm"
         >
           <Plus className="w-4 h-4" />
           {t('addGoal')}
         </motion.button>
       </div>
 
-      {/* Summary */}
-      <SummaryCards
-        dailyGoals={dailyGoals}
-        weeklyGoals={weeklyGoals}
-        generalGoals={generalGoals}
-      />
+      {/* ── Summary Cards ── */}
+      <SummaryCards dailyGoals={dailyGoals} weeklyGoals={weeklyGoals} generalGoals={generalGoals} />
 
-      {/* Tabs */}
-      <div className="bg-card border border-border/40 rounded-2xl overflow-hidden">
+      {/* ── Tabs + List ── */}
+      <div className="bg-card border border-border/40 rounded-2xl overflow-hidden shadow-sm">
         {/* Tab bar */}
-        <div className="flex border-b border-border/40">
+        <div className="flex border-b border-border/40 bg-muted/20">
           {TABS.map(tab => {
             const goals = tabGoals[tab];
             const done = goals.filter(g => g.is_completed).length;
             const isActive = activeTab === tab;
+            const Icon = TAB_ICONS[tab];
+
             return (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={cn(
-                  'flex-1 py-3.5 text-sm font-semibold transition-colors relative',
-                  isActive
-                    ? 'text-foreground'
-                    : 'text-muted-foreground hover:text-foreground/70'
+                  'flex-1 py-4 text-sm font-semibold transition-all relative',
+                  isActive ? 'text-foreground bg-card' : 'text-muted-foreground hover:text-foreground/80 hover:bg-muted/30'
                 )}
               >
                 {isActive && (
                   <motion.div
                     layoutId="tab-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full"
+                    className="absolute bottom-0 left-4 right-4 h-0.5 bg-primary rounded-full"
+                    transition={{ type: 'spring', stiffness: 500, damping: 40 }}
                   />
                 )}
-                <span className="flex items-center justify-center gap-1.5">
+                <span className="flex items-center justify-center gap-2">
+                  <Icon className={cn('w-4 h-4', isActive ? 'text-primary' : '')} />
                   {t(tab)}
                   {goals.length > 0 && (
                     <span className={cn(
-                      'text-[10px] font-bold px-1.5 py-0.5 rounded-full',
+                      'text-[10px] font-bold px-2 py-0.5 rounded-full tabular-nums',
                       done === goals.length
                         ? 'bg-emerald-500/15 text-emerald-500'
-                        : 'bg-muted/50 text-muted-foreground'
+                        : isActive ? 'bg-primary/10 text-primary' : 'bg-muted/60 text-muted-foreground'
                     )}>
                       {done}/{goals.length}
                     </span>
@@ -665,38 +690,42 @@ export function GoalsPage({ subjects }: { subjects: Subject[] }) {
           })}
         </div>
 
-        {/* Tab content */}
-        <div className="p-4">
+        {/* Content */}
+        <div className="p-6">
+          {/* Celebration banner */}
           <AnimatePresence>
             {celebratingTab === activeTab && (
               <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                className="mb-4 flex items-center gap-3 rounded-xl bg-emerald-500/10 border border-emerald-500/25 px-4 py-3"
+                initial={{ opacity: 0, y: -10, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.97 }}
+                className="mb-5 flex items-center gap-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 px-5 py-4"
               >
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <p className="text-sm font-semibold text-emerald-500">
-                  {activeTab === 'daily' ? t('allDailyCompleted') : t('allWeeklyCompleted')}
-                </p>
+                <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
+                <div>
+                  <p className="text-sm font-bold text-emerald-500">
+                    {activeTab === 'daily' ? t('allDailyCompleted') : t('allWeeklyCompleted')}
+                  </p>
+                  <p className="text-xs text-emerald-500/70 mt-0.5">{t('celebration')}</p>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
 
           {loading ? (
-            <div className="py-12 flex justify-center">
-              <span className="w-6 h-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+            <div className="py-16 flex flex-col items-center gap-3">
+              <span className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
             </div>
           ) : error ? (
-            <p className="py-8 text-center text-sm text-red-500">{t('errorLoad')}</p>
+            <p className="py-10 text-center text-sm text-red-500">{t('errorLoad')}</p>
           ) : (
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
-                initial={{ opacity: 0, x: 10 }}
+                initial={{ opacity: 0, x: 12 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ duration: 0.15 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.18 }}
               >
                 <GoalList
                   goals={currentGoals}
