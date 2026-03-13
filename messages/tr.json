@@ -365,6 +365,7 @@
     "noAccount": "Hesabın yok mu?",
     "hasAccount": "Zaten hesabın var mı?",
     "createAccount": "Hesap Oluştur",
+    "trialDesc": "7 gün ücretsiz deneme başlar",
     "loginError": "E-posta veya şifre hatalı.",
     "registerError": "Kayıt sırasında hata oluştu.",
     "passwordMismatch": "Şifreler eşleşmiyor.",

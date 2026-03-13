@@ -242,7 +242,9 @@
     "long": "Long",
     "presetClassic": "Classic",
     "presetDeep": "Deep Work",
-    "presetSprint": "Sprint"
+    "presetSprint": "Sprint",
+    "hourShort": "h",
+    "block": "block"
   },
   "schedule": {
     "title": "Study Schedule",
@@ -362,6 +364,7 @@
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
     "createAccount": "Create Account",
+    "trialDesc": "Your 7-day free trial starts now",
     "loginError": "Invalid email or password.",
     "registerError": "An error occurred during registration.",
     "passwordMismatch": "Passwords do not match.",

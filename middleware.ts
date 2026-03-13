@@ -10,7 +10,7 @@ const intlMiddleware = createMiddleware({
 });
 
 // Protected routes that require authentication
-const protectedRoutes = ['/dashboard', '/pomodoro', '/schedule', '/topics', '/stats', '/settings'];
+const protectedRoutes = ['/dashboard', '/pomodoro', '/schedule', '/topics', '/notes', '/stats', '/exams', '/settings', '/subscribe'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

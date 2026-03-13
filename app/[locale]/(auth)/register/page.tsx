@@ -97,7 +97,7 @@ export default function RegisterPage() {
           </div>
         </div>
         <CardTitle className="text-2xl">{t('createAccount')}</CardTitle>
-        <CardDescription>7 gün ücretsiz deneme başlar</CardDescription>
+        <CardDescription>{t('trialDesc')}</CardDescription>
       </CardHeader>
 
       <CardContent>
