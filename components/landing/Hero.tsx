@@ -161,19 +161,25 @@ export function Hero({ locale }: HeroProps) {
                       { label: 'Pomodoro', active: false },
                       { label: 'Schedule', active: false },
                       { label: 'Topics', active: false },
+                      { label: 'Tasks', active: false },
+                      { label: 'Notes', active: false },
                       { label: 'Statistics', active: false },
+                      { label: 'Exams', active: false },
                     ]
                   : [
                       { label: 'Kontrol Paneli', active: true },
                       { label: 'Pomodoro', active: false },
                       { label: 'Ders Programı', active: false },
                       { label: 'Konu Takip', active: false },
+                      { label: 'Görevler', active: false },
+                      { label: 'Notlarım', active: false },
                       { label: 'İstatistikler', active: false },
+                      { label: 'Sınavlar', active: false },
                     ]
                 ).map((item) => (
                   <div
                     key={item.label}
-                    className={`flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[11px] mb-0.5 ${
+                    className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-[10px] mb-0.5 ${
                       item.active
                         ? 'bg-primary text-primary-foreground font-medium'
                         : 'text-muted-foreground hover:text-foreground'

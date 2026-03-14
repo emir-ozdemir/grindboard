@@ -130,6 +130,108 @@ function StreakVisual({ locale }: { locale: string }) {
   );
 }
 
+function NotesVisual({ locale }: { locale: string }) {
+  const lines = [
+    { w: '92%', opacity: 1 },
+    { w: '78%', opacity: 0.75 },
+    { w: '85%', opacity: 0.6 },
+    { w: '65%', opacity: 0.45 },
+    { w: '50%', opacity: 0.3 },
+  ];
+  const heading = locale === 'en' ? 'Study Notes' : 'Ders Notları';
+  const tag = locale === 'en' ? 'Math' : 'Matematik';
+  const entry = locale === 'en' ? '· Differentiation rules' : '· Türev kuralları';
+  return (
+    <div className="h-40 bg-teal-500/5 rounded-xl overflow-hidden p-4">
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-[9px] font-semibold text-teal-500 uppercase tracking-widest">{heading}</span>
+        <span className="text-[8px] px-1.5 py-0.5 rounded bg-teal-500/15 text-teal-500 font-medium">{tag}</span>
+      </div>
+      <div className="space-y-2 mb-3">
+        {lines.map((l, i) => (
+          <div key={i} className="h-1.5 bg-teal-500/20 rounded-full" style={{ width: l.w, opacity: l.opacity }} />
+        ))}
+      </div>
+      <div className="flex items-center gap-1.5 border-t border-teal-500/10 pt-2">
+        <div className="w-1 h-1 rounded-full bg-teal-500 animate-pulse" />
+        <span className="text-[8px] text-teal-500/70 font-medium">{entry}</span>
+      </div>
+    </div>
+  );
+}
+
+function TasksVisual({ locale }: { locale: string }) {
+  const tasks = locale === 'en'
+    ? [
+        { label: '5 practice problems', done: true },
+        { label: 'Review formulas', done: true },
+        { label: 'Essay draft', done: false },
+        { label: 'Mock test', done: false },
+      ]
+    : [
+        { label: '5 alıştırma yap', done: true },
+        { label: 'Formülleri gözden geçir', done: true },
+        { label: 'Deneme özeti çıkar', done: false },
+        { label: 'Deneme sınavı çöz', done: false },
+      ];
+  const progressLabel = locale === 'en' ? '2/4 done' : '2/4 tamamlandı';
+  const heading = locale === 'en' ? 'Daily Tasks' : 'Günlük Görevler';
+  return (
+    <div className="h-40 bg-orange-500/5 rounded-xl overflow-hidden p-3">
+      <div className="flex items-center justify-between mb-2.5">
+        <span className="text-[9px] font-semibold text-orange-500 uppercase tracking-widest">{heading}</span>
+        <span className="text-[9px] text-orange-500 font-bold tabular-nums">{progressLabel}</span>
+      </div>
+      <div className="space-y-1.5 mb-2.5">
+        {tasks.map((task, i) => (
+          <div key={i} className="flex items-center gap-2">
+            <div className={`w-3 h-3 rounded shrink-0 flex items-center justify-center ${task.done ? 'bg-orange-500' : 'border border-muted-foreground/30'}`}>
+              {task.done && (
+                <svg viewBox="0 0 10 10" className="w-2 h-2 text-white" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M1.5 5l2.5 2.5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </div>
+            <span className={`text-[9px] leading-none ${task.done ? 'line-through text-muted-foreground' : 'text-foreground'}`}>{task.label}</span>
+          </div>
+        ))}
+      </div>
+      <div className="h-1.5 bg-muted/40 rounded-full overflow-hidden">
+        <div className="h-full bg-orange-500 rounded-full" style={{ width: '50%' }} />
+      </div>
+    </div>
+  );
+}
+
+function ExamsVisual({ locale }: { locale: string }) {
+  const heading = locale === 'en' ? 'Exam Countdown' : 'Sınav Takvimi';
+  const dayLabel = locale === 'en' ? 'days' : 'gün';
+  const nextLabel = locale === 'en' ? 'days to YKS' : 'gün YKS\'ye';
+  const exams = [
+    { name: 'YKS', days: 47, color: '#f43f5e' },
+    { name: 'KPSS', days: 120, color: '#8b5cf6' },
+  ];
+  return (
+    <div className="h-40 bg-rose-500/5 rounded-xl overflow-hidden p-3 flex flex-col">
+      <p className="text-[9px] font-semibold text-rose-500 uppercase tracking-widest mb-3">{heading}</p>
+      <div className="space-y-2 mb-auto">
+        {exams.map((exam) => (
+          <div key={exam.name} className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: exam.color }} />
+            <span className="text-[10px] font-medium text-foreground flex-1">{exam.name}</span>
+            <span className="text-[10px] font-bold tabular-nums" style={{ color: exam.color }}>{exam.days}</span>
+            <span className="text-[8px] text-muted-foreground">{dayLabel}</span>
+          </div>
+        ))}
+      </div>
+      <div className="text-center mt-2">
+        <div className="text-3xl font-black text-rose-500 leading-none">47</div>
+        <div className="text-[8px] text-muted-foreground mt-0.5">{nextLabel}</div>
+      </div>
+    </div>
+  );
+}
+
 function MultiplatformVisual({ locale }: { locale: string }) {
   const devices = locale === 'en'
     ? [{ icon: '📱', label: 'Phone', w: 'w-10', h: 'h-16' }, { icon: '💻', label: 'Laptop', w: 'w-20', h: 'h-14' }, { icon: '📟', label: 'Tablet', w: 'w-14', h: 'h-12' }]
@@ -156,6 +258,9 @@ const CARDS = [
   { key: 'topics',        Visual: TopicsVisual,        accent: '#10b981' },
   { key: 'stats',         Visual: StatsVisual,         accent: '#f59e0b' },
   { key: 'streak',        Visual: StreakVisual,         accent: '#ef4444' },
+  { key: 'notes',         Visual: NotesVisual,         accent: '#14b8a6' },
+  { key: 'goals',         Visual: TasksVisual,         accent: '#f97316' },
+  { key: 'exams',         Visual: ExamsVisual,         accent: '#f43f5e' },
   { key: 'multiplatform', Visual: MultiplatformVisual, accent: '#06b6d4' },
 ] as const;
 

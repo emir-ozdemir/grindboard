@@ -55,6 +55,18 @@
       "multiplatform": {
         "title": "Her Cihazdan Erişim",
         "description": "Bulut tabanlı yapısı sayesinde telefon, tablet veya bilgisayarından aynı hesapla giriş yap, verilerine anında eriş. Kütüphanede başladığın çalışmayı evde kaldığın yerden sürdür."
+      },
+      "notes": {
+        "title": "Not Defteri",
+        "description": "Ders notlarını, formülleri ve hatırlatıcıları düzenli bir şekilde sakla. Konuya özel not ekle, istediğin zaman geri dön ve çalışma sürecindeki önemli detayları kayıt altına al."
+      },
+      "goals": {
+        "title": "Günlük ve Haftalık Görevler",
+        "description": "Günlük veya haftalık görevler oluştur, tamamladıkça işaretle. Hedeflerine ulaştığında konfeti kutlaması seni karşılar. Öncelikleri belirle, görevleri sırayla tamamla ve her gün bir adım daha ilerle."
+      },
+      "exams": {
+        "title": "Sınav Geri Sayımı",
+        "description": "Hedef sınavını ekle ve kalan günleri gerçek zamanlı takip et. Renk kodlu sınav kartları ile birden fazla sınavı aynı anda yönet. Zaman daralırken motivasyonunu canlı tut."
       }
     },
     "socialProof": {
@@ -95,6 +107,9 @@
         "Sınırsız ders ve konu takibi",
         "Günlük, haftalık, aylık istatistikler",
         "Çalışma serisi takibi",
+        "Not defteri",
+        "Günlük ve haftalık görev takibi",
+        "Sınav geri sayımı",
         "Karanlık ve aydınlık tema",
         "Türkçe ve İngilizce dil desteği",
         "Tüm cihazlardan senkronize erişim",

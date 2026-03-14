@@ -55,6 +55,18 @@
       "multiplatform": {
         "title": "Access From Any Device",
         "description": "Log in from your phone, tablet, or laptop — your data syncs instantly. Start a session at the library and continue from home without missing a beat. Cloud-based and always in sync."
+      },
+      "notes": {
+        "title": "Notes",
+        "description": "Keep your study notes, formulas, and reminders in one organized place. Add subject-specific notes, revisit them anytime, and turn the mental clutter into a clean, searchable reference."
+      },
+      "goals": {
+        "title": "Daily & Weekly Tasks",
+        "description": "Create daily or weekly tasks, check them off as you go. Hit all your goals and earn a confetti celebration. Set priorities, work through your list, and make progress every single day."
+      },
+      "exams": {
+        "title": "Exam Countdown",
+        "description": "Add your target exams and track the remaining days in real time. Manage multiple exams at once with color-coded cards. Stay motivated as the clock ticks down to exam day."
       }
     },
     "socialProof": {
@@ -95,6 +107,9 @@
         "Unlimited subjects and topic tracking",
         "Daily, weekly & monthly statistics",
         "Study streak tracking",
+        "Notes",
+        "Daily and weekly task tracking",
+        "Exam countdown",
         "Dark and light theme",
         "Turkish and English language support",
         "Synchronized access from all devices",
