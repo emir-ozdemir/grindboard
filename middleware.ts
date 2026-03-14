@@ -9,25 +9,33 @@ const intlMiddleware = createMiddleware({
   localePrefix: 'always',
 });
 
-// Protected routes that require authentication
-const protectedRoutes = ['/dashboard', '/pomodoro', '/schedule', '/topics', '/notes', '/stats', '/exams', '/settings', '/subscribe'];
+// All routes requiring authentication
+const protectedRoutes = [
+  '/dashboard', '/pomodoro', '/schedule', '/topics', '/notes',
+  '/stats', '/exams', '/settings', '/subscribe', '/goals',
+];
+
+// Routes that also require an active subscription (trialing or paid).
+// /subscribe and /settings are intentionally excluded so expired users
+// can still access the subscribe page and manage their account.
+const subscriptionRoutes = [
+  '/dashboard', '/pomodoro', '/schedule', '/topics', '/notes',
+  '/stats', '/exams', '/goals',
+];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Check if this is an app route (protected)
   const isProtectedRoute = protectedRoutes.some((route) =>
     locales.some((locale) => pathname.startsWith(`/${locale}${route}`))
   );
 
-  // Run i18n middleware first
   const intlResponse = intlMiddleware(request);
 
   if (!isProtectedRoute) {
     return intlResponse;
   }
 
-  // For protected routes, check authentication
   const supabaseResponse = intlResponse || NextResponse.next({ request });
 
   const supabase = createServerClient(
@@ -48,16 +56,38 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    // Redirect to locale-specific login
     const locale = locales.find((l) => pathname.startsWith(`/${l}/`)) || defaultLocale;
     const loginUrl = new URL(`/${locale}/login`, request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
+  }
+
+  // Subscription gate: block access to app routes for expired / no subscription users
+  const isSubscriptionRoute = subscriptionRoutes.some((route) =>
+    locales.some((locale) => pathname.startsWith(`/${locale}${route}`))
+  );
+
+  if (isSubscriptionRoute) {
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('status, trial_ends_at')
+      .eq('user_id', user.id)
+      .single();
+
+    const now = new Date();
+    const isActive =
+      subscription?.status === 'active' ||
+      (subscription?.status === 'trialing' &&
+        subscription.trial_ends_at != null &&
+        new Date(subscription.trial_ends_at) > now);
+
+    if (!isActive) {
+      const locale = locales.find((l) => pathname.startsWith(`/${l}/`)) || defaultLocale;
+      return NextResponse.redirect(new URL(`/${locale}/subscribe`, request.url));
+    }
   }
 
   return supabaseResponse;
