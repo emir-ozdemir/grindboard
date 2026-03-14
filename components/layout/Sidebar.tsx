@@ -17,10 +17,13 @@ import {
   NotebookPen,
   Sparkles,
   Target,
+  CheckCircle2,
+  Circle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Exam } from '@/lib/hooks/useExams';
-import { getGoalsSidebarSummary } from '@/lib/hooks/useGoals';
+import { getGoalsSidebarSummary, useGoals } from '@/lib/hooks/useGoals';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 
 const navItems = [
   { key: 'dashboard', icon: LayoutDashboard, href: '/dashboard' },
@@ -104,6 +107,8 @@ function NavItem({ href, label, isActive }: NavItemProps) {
 
 function NearestExamWidget() {
   const [nearest, setNearest] = useState<{ name: string; days: number; color: string } | null>(null);
+  const params = useParams();
+  const locale = params.locale as string;
 
   const update = useCallback(() => {
     try {
@@ -141,26 +146,108 @@ function NearestExamWidget() {
   if (!nearest) return null;
 
   return (
-    <div className="mx-3 mb-3 px-3 py-2.5 rounded-xl bg-primary/[0.06] border border-border/30">
-      <p className="text-[9px] uppercase tracking-widest text-muted-foreground/60 font-semibold mb-1.5">
-        {te('upcomingExam')}
-      </p>
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5 min-w-0">
-          <div
-            className="w-1.5 h-1.5 rounded-full shrink-0"
-            style={{ backgroundColor: nearest.color }}
-          />
-          <p className="text-xs font-medium text-foreground truncate">{nearest.name}</p>
+    <Link href={`/${locale}/exams`} className="block mx-3 mb-3">
+      <div className="px-3 py-2.5 rounded-xl bg-primary/[0.06] border border-border/30 cursor-pointer hover:bg-primary/[0.12] transition-colors">
+        <p className="text-[9px] uppercase tracking-widest text-muted-foreground/60 font-semibold mb-1.5">
+          {te('upcomingExam')}
+        </p>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <div
+              className="w-1.5 h-1.5 rounded-full shrink-0"
+              style={{ backgroundColor: nearest.color }}
+            />
+            <p className="text-xs font-medium text-foreground truncate">{nearest.name}</p>
+          </div>
+          <span
+            className="text-xs font-bold tabular-nums shrink-0"
+            style={{ color: nearest.color }}
+          >
+            {nearest.days === 0 ? te('today') : te('daysShort', { n: nearest.days })}
+          </span>
         </div>
-        <span
-          className="text-xs font-bold tabular-nums shrink-0"
-          style={{ color: nearest.color }}
-        >
-          {nearest.days === 0 ? te('today') : te('daysShort', { n: nearest.days })}
-        </span>
       </div>
-    </div>
+    </Link>
+  );
+}
+
+// ─── Goals sheet content ───────────────────────────────────────────────────────
+
+function GoalsSheetContent({ locale }: { locale: string }) {
+  const { dailyGoals, loading, toggleGoal } = useGoals();
+  const tg = useTranslations('goals');
+
+  const done = dailyGoals.filter((g) => g.is_completed).length;
+  const total = dailyGoals.length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const allDone = done === total && total > 0;
+
+  return (
+    <>
+      <SheetHeader className="pb-4 border-b border-border/40">
+        <SheetTitle className="text-base">{tg('todaySummary')}</SheetTitle>
+      </SheetHeader>
+
+      <div className="mt-4 flex flex-col gap-4">
+        {total > 0 && (
+          <div>
+            <div className="flex items-center justify-between text-xs mb-1.5">
+              <span className="text-muted-foreground">{tg('completedCount', { done, total })}</span>
+              <span className={cn('font-bold tabular-nums', allDone ? 'text-emerald-500' : 'text-primary')}>
+                {pct}%
+              </span>
+            </div>
+            <div className="h-1.5 bg-muted/40 rounded-full overflow-hidden">
+              <div
+                className={cn('h-full rounded-full transition-all duration-500', allDone ? 'bg-emerald-500' : 'bg-primary')}
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        {loading ? (
+          <div className="flex items-center justify-center py-8 text-sm text-muted-foreground">
+            ...
+          </div>
+        ) : total === 0 ? (
+          <div className="flex flex-col items-center gap-2 py-8 text-center">
+            <p className="text-sm text-muted-foreground">{tg('noGoals')}</p>
+            <Link href={`/${locale}/goals`} className="text-xs text-primary hover:underline">
+              {tg('addFirst')}
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-0.5">
+            {dailyGoals.map((goal) => (
+              <button
+                key={goal.id}
+                onClick={() => toggleGoal(goal)}
+                className={cn(
+                  'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors',
+                  goal.is_completed ? 'opacity-60' : 'hover:bg-muted/30'
+                )}
+              >
+                {goal.is_completed
+                  ? <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
+                  : <Circle className="h-4 w-4 shrink-0 text-muted-foreground" />
+                }
+                <span className={cn('text-sm flex-1', goal.is_completed && 'line-through text-muted-foreground')}>
+                  {goal.title}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        <Link
+          href={`/${locale}/goals`}
+          className="text-xs text-muted-foreground hover:text-foreground transition-colors mt-1"
+        >
+          {tg('viewAll')} →
+        </Link>
+      </div>
+    </>
   );
 }
 
@@ -168,6 +255,9 @@ function NearestExamWidget() {
 
 function DailyGoalsWidget() {
   const [summary, setSummary] = useState<{ todayDone: number; todayTotal: number } | null>(null);
+  const [open, setOpen] = useState(false);
+  const params = useParams();
+  const locale = params.locale as string;
 
   const update = useCallback(() => {
     const s = getGoalsSidebarSummary();
@@ -192,25 +282,37 @@ function DailyGoalsWidget() {
   const allDone = summary.todayDone === summary.todayTotal;
 
   return (
-    <div className="mx-3 mb-2 px-3 py-2.5 rounded-xl bg-primary/[0.06] border border-border/30">
-      <div className="flex items-center justify-between mb-1.5">
-        <p className="text-[9px] uppercase tracking-widest text-muted-foreground/60 font-semibold">
-          {tg('todaySummary')}
-        </p>
-        <span className={cn(
-          'text-[10px] font-bold tabular-nums',
-          allDone ? 'text-emerald-500' : 'text-primary'
-        )}>
-          {summary.todayDone}/{summary.todayTotal}
-        </span>
+    <>
+      <div
+        role="button"
+        onClick={() => setOpen(true)}
+        className="mx-3 mb-2 px-3 py-2.5 rounded-xl bg-primary/[0.06] border border-border/30 cursor-pointer hover:bg-primary/[0.12] transition-colors"
+      >
+        <div className="flex items-center justify-between mb-1.5">
+          <p className="text-[9px] uppercase tracking-widest text-muted-foreground/60 font-semibold">
+            {tg('todaySummary')}
+          </p>
+          <span className={cn(
+            'text-[10px] font-bold tabular-nums',
+            allDone ? 'text-emerald-500' : 'text-primary'
+          )}>
+            {summary.todayDone}/{summary.todayTotal}
+          </span>
+        </div>
+        <div className="h-1.5 bg-muted/40 rounded-full overflow-hidden">
+          <div
+            className={cn('h-full rounded-full transition-all duration-500', allDone ? 'bg-emerald-500' : 'bg-primary')}
+            style={{ width: `${pct}%` }}
+          />
+        </div>
       </div>
-      <div className="h-1.5 bg-muted/40 rounded-full overflow-hidden">
-        <div
-          className={cn('h-full rounded-full transition-all duration-500', allDone ? 'bg-emerald-500' : 'bg-primary')}
-          style={{ width: `${pct}%` }}
-        />
-      </div>
-    </div>
+
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetContent side="right" className="w-80 sm:w-96">
+          {open && <GoalsSheetContent locale={locale} />}
+        </SheetContent>
+      </Sheet>
+    </>
   );
 }
 
