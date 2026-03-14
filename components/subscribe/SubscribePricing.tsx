@@ -155,18 +155,24 @@ function PricingCard({
 
 function ActivePanel({ subscription, locale }: { subscription: Subscription; locale: string }) {
   const t = useTranslations('subscribe');
+  const isGifted = subscription.status === 'gifted';
 
   const fmt = (dateStr: string | null) =>
     dateStr
       ? new Date(dateStr).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
       : '—';
 
-  const rows = [
-    { label: t('planLabel'), value: subscription.plan_name || '—' },
-    { label: t('periodLabel'), value: subscription.current_period_start ? fmt(subscription.current_period_start) : '—' },
-    { label: t('nextPaymentLabel'), value: fmt(subscription.current_period_end) },
-    { label: t('memberSinceLabel'), value: fmt(subscription.created_at) },
-  ];
+  const rows = isGifted
+    ? [
+        { label: t('planLabel'), value: subscription.plan_name || 'GrindBoard Pro' },
+        { label: t('memberSinceLabel'), value: fmt(subscription.created_at) },
+      ]
+    : [
+        { label: t('planLabel'), value: subscription.plan_name || '—' },
+        { label: t('periodLabel'), value: subscription.current_period_start ? fmt(subscription.current_period_start) : '—' },
+        { label: t('nextPaymentLabel'), value: fmt(subscription.current_period_end) },
+        { label: t('memberSinceLabel'), value: fmt(subscription.created_at) },
+      ];
 
   return (
     <div className="max-w-lg mx-auto py-4">
@@ -174,33 +180,37 @@ function ActivePanel({ subscription, locale }: { subscription: Subscription; loc
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
-        className="rounded-2xl border border-emerald-500/30 bg-card overflow-hidden"
+        className={`rounded-2xl border bg-card overflow-hidden ${isGifted ? 'border-violet-500/30' : 'border-emerald-500/30'}`}
       >
         {/* Top bar */}
-        <div className="h-1 bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-500" />
+        <div className={`h-1 bg-gradient-to-r ${isGifted ? 'from-violet-400 via-purple-500 to-fuchsia-500' : 'from-emerald-400 via-emerald-500 to-teal-500'}`} />
 
         <div className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center">
-                <Crown className="w-5 h-5 text-emerald-500" />
+              <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${isGifted ? 'bg-violet-500/15 border border-violet-500/25' : 'bg-emerald-500/15 border border-emerald-500/25'}`}>
+                <Crown className={`w-5 h-5 ${isGifted ? 'text-violet-500' : 'text-emerald-500'}`} />
               </div>
               <div>
                 <h2 className="font-bold text-base text-foreground">GrindBoard Pro</h2>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-xs font-semibold text-emerald-500">{t('statusActive')}</span>
+                  <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${isGifted ? 'bg-violet-500' : 'bg-emerald-500'}`} />
+                  <span className={`text-xs font-semibold ${isGifted ? 'text-violet-500' : 'text-emerald-500'}`}>
+                    {isGifted ? (locale === 'tr' ? 'Hediye Üyelik' : 'Gifted Access') : t('statusActive')}
+                  </span>
                 </div>
               </div>
             </div>
-            <a
-              href="/api/billing/portal"
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl btn-gradient text-white text-sm font-semibold shadow-md hover:scale-[1.02] active:scale-[0.98] transition-transform"
-            >
-              {t('manageSubscription')}
-              <ArrowRight className="w-3.5 h-3.5" />
-            </a>
+            {!isGifted && (
+              <a
+                href="/api/billing/portal"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl btn-gradient text-white text-sm font-semibold shadow-md hover:scale-[1.02] active:scale-[0.98] transition-transform"
+              >
+                {t('manageSubscription')}
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            )}
           </div>
 
           {/* Details */}
@@ -303,8 +313,8 @@ export function SubscribePricing({ subscription, isTrialing, locale }: Subscribe
     window.location.href = `/api/billing/checkout?period=${period}`;
   };
 
-  // Active subscriber → full management panel
-  if (status === 'active') {
+  // Active or gifted subscriber → full management panel
+  if (status === 'active' || status === 'gifted') {
     return <ActivePanel subscription={subscription!} locale={locale} />;
   }
 

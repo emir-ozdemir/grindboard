@@ -43,7 +43,7 @@ export interface Database {
           id: string;
           user_id: string;
           lemonsqueezy_subscription_id: string | null;
-          status: 'trialing' | 'active' | 'cancelled' | 'expired' | 'paused';
+          status: 'trialing' | 'active' | 'cancelled' | 'expired' | 'paused' | 'gifted';
           plan_name: string;
           current_period_start: string | null;
           current_period_end: string | null;
@@ -55,7 +55,7 @@ export interface Database {
           id?: string;
           user_id: string;
           lemonsqueezy_subscription_id?: string | null;
-          status?: 'trialing' | 'active' | 'cancelled' | 'expired' | 'paused';
+          status?: 'trialing' | 'active' | 'cancelled' | 'expired' | 'paused' | 'gifted';
           plan_name?: string;
           current_period_start?: string | null;
           current_period_end?: string | null;
@@ -67,7 +67,7 @@ export interface Database {
           id?: string;
           user_id?: string;
           lemonsqueezy_subscription_id?: string | null;
-          status?: 'trialing' | 'active' | 'cancelled' | 'expired' | 'paused';
+          status?: 'trialing' | 'active' | 'cancelled' | 'expired' | 'paused' | 'gifted';
           plan_name?: string;
           current_period_start?: string | null;
           current_period_end?: string | null;

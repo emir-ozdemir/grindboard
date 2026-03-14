@@ -80,6 +80,7 @@ export async function middleware(request: NextRequest) {
     const now = new Date();
     const isActive =
       subscription?.status === 'active' ||
+      subscription?.status === 'gifted' ||
       (subscription?.status === 'trialing' &&
         subscription.trial_ends_at != null &&
         new Date(subscription.trial_ends_at) > now);
