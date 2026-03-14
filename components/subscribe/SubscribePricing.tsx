@@ -8,18 +8,21 @@ import {
   Timer, Calendar, BookMarked, BarChart3,
   GraduationCap, NotebookPen, RefreshCcw,
   Crown, AlertTriangle, PauseCircle,
+  Target, Flame,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Subscription } from '@/types/database';
 
 const FEATURES = [
-  { icon: Timer,        key: 'pomodoro' },
-  { icon: Calendar,    key: 'schedule' },
-  { icon: BookMarked,  key: 'topics' },
-  { icon: BarChart3,   key: 'stats' },
-  { icon: GraduationCap, key: 'exams' },
-  { icon: NotebookPen, key: 'notes' },
-  { icon: RefreshCcw,  key: 'sync' },
+  { icon: Timer,          key: 'pomodoro' },
+  { icon: Calendar,       key: 'schedule' },
+  { icon: BookMarked,     key: 'topics' },
+  { icon: BarChart3,      key: 'stats' },
+  { icon: GraduationCap,  key: 'exams' },
+  { icon: NotebookPen,    key: 'notes' },
+  { icon: Target,         key: 'goals' },
+  { icon: Flame,          key: 'streak' },
+  { icon: RefreshCcw,     key: 'sync' },
 ] as const;
 
 interface SubscribePricingProps {
