@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 import { createServerClient } from '@supabase/ssr';
+import { createClient as createAdminClient } from '@supabase/supabase-js';
 import { locales, defaultLocale } from './i18n/config';
 
 const intlMiddleware = createMiddleware({
@@ -65,35 +66,47 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Subscription gate: block access to app routes for expired / no subscription users
+  // Subscription gate: block access to app routes for expired / no subscription users.
+  // Uses service role client to bypass RLS and reliably read the subscription row.
   const isSubscriptionRoute = subscriptionRoutes.some((route) =>
     locales.some((locale) => pathname.startsWith(`/${locale}${route}`))
   );
 
   if (isSubscriptionRoute) {
-    const { data: subscription, error: subError } = await supabase
-      .from('subscriptions')
-      .select('status, trial_ends_at')
-      .eq('user_id', user.id)
-      .maybeSingle();
+    try {
+      const supabaseAdmin = createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        { auth: { persistSession: false } }
+      );
 
-    // If the DB query fails for any reason, fail open to avoid locking out valid users.
-    if (subError) {
-      console.warn('[middleware] subscription check failed:', subError.message);
+      const { data: subscription, error: subError } = await supabaseAdmin
+        .from('subscriptions')
+        .select('status, trial_ends_at')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (subError) {
+        // DB error → fail open to avoid locking out valid users
+        console.warn('[middleware] subscription check failed:', subError.message);
+        return supabaseResponse;
+      }
+
+      const now = new Date();
+      const isActive =
+        subscription?.status === 'active' ||
+        subscription?.status === 'gifted' ||
+        (subscription?.status === 'trialing' &&
+          subscription.trial_ends_at != null &&
+          new Date(subscription.trial_ends_at) > now);
+
+      if (!isActive) {
+        const locale = locales.find((l) => pathname.startsWith(`/${l}/`)) || defaultLocale;
+        return NextResponse.redirect(new URL(`/${locale}/subscribe`, request.url));
+      }
+    } catch {
+      // Network / unexpected error → fail open
       return supabaseResponse;
-    }
-
-    const now = new Date();
-    const isActive =
-      subscription?.status === 'active' ||
-      subscription?.status === 'gifted' ||
-      (subscription?.status === 'trialing' &&
-        subscription.trial_ends_at != null &&
-        new Date(subscription.trial_ends_at) > now);
-
-    if (!isActive) {
-      const locale = locales.find((l) => pathname.startsWith(`/${l}/`)) || defaultLocale;
-      return NextResponse.redirect(new URL(`/${locale}/subscribe`, request.url));
     }
   }
 
