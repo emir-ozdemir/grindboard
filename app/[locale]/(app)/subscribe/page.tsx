@@ -15,7 +15,9 @@ export default async function SubscribePage({
     ? await supabase.from('subscriptions').select('*').eq('user_id', user.id).single()
     : { data: null };
 
-  const isTrialing = subscription?.status === 'trialing';
+  // Show "7 Gün Ücretsiz Başla" only for brand-new users with no subscription record.
+  // Anyone who already went through the trial flow (trialing/expired/cancelled) gets "Hemen Başla".
+  const isTrialing = subscription !== null;
 
   return (
     <SubscribePricing
