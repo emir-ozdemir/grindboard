@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import { Play, Pause, RotateCcw, Plus, Trash2, Check, Settings } from 'lucide-react';
+import { Play, Pause, RotateCcw, Plus, Trash2, Check, Settings, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePomodoro, type PomodoroMode } from '@/lib/hooks/usePomodoro';
 import { usePomodoroPresets } from '@/lib/hooks/usePomodoroPresets';
@@ -506,6 +506,22 @@ function AutoSection({ userId, subjects }: PomodoroTimerProps) {
   /** The sequence builder lives inside the settings sheet */
   const settingsContent = (
     <div className="space-y-4 pt-2">
+      {/* How it works */}
+      <div className="rounded-xl bg-primary/[0.06] border border-primary/20 px-4 py-3 space-y-2">
+        <div className="flex items-center gap-2">
+          <Info className="w-3.5 h-3.5 text-primary shrink-0" />
+          <p className="text-xs font-bold text-primary">{t('howTitle')}</p>
+        </div>
+        <ul className="space-y-1">
+          {[t('how1'), t('how2'), t('how3')].map((step, i) => (
+            <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
+              <span className="mt-0.5 w-4 h-4 rounded-full bg-primary/15 text-primary text-[10px] font-bold flex items-center justify-center shrink-0">{i + 1}</span>
+              {step}
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <div className="flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t('sequence')}</p>
         {totalDuration > 0 && (

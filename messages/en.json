@@ -245,7 +245,12 @@
     "presetDeep": "Deep Work",
     "presetSprint": "Sprint",
     "hourShort": "h",
-    "block": "block"
+    "block": "block",
+    "total": "total",
+    "howTitle": "How it works",
+    "how1": "Add work and break blocks to the sequence",
+    "how2": "Press Start — blocks play automatically in order",
+    "how3": "Timer stops when the last block finishes"
   },
   "schedule": {
     "title": "Study Schedule",

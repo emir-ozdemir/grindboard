@@ -246,7 +246,11 @@
     "presetSprint": "Sprint",
     "hourShort": "s",
     "block": "blok",
-    "total": "toplam"
+    "total": "toplam",
+    "howTitle": "Nasıl çalışır?",
+    "how1": "Çalışma ve mola bloklarını sıraya ekle",
+    "how2": "Başlat'a bas — bloklar sırayla otomatik geçer",
+    "how3": "Son blok bitince sıra tamamlanır"
   },
   "schedule": {
     "title": "Ders Programı",
