@@ -303,6 +303,7 @@
       "completed": "Completed"
     },
     "completedOf": "{completed}/{total} topics completed",
+    "topicCount": "{n} topics",
     "addNote": "Add Note",
     "notePlaceholder": "Write your notes about this topic...",
     "deleteSubjectConfirm": "Are you sure you want to delete this subject? All topics will also be deleted.",

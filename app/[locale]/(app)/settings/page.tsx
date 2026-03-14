@@ -403,8 +403,8 @@ export default function SettingsPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="tr">🇹🇷 Türkçe</SelectItem>
-                  <SelectItem value="en">🇬🇧 English</SelectItem>
+                  <SelectItem value="tr">TR — Türkçe</SelectItem>
+                  <SelectItem value="en">EN — English</SelectItem>
                 </SelectContent>
               </Select>
             </CardContent>

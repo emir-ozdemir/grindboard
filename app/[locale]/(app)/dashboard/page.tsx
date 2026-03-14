@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getTranslations } from 'next-intl/server';
 import { SummaryCard } from '@/components/dashboard/SummaryCard';
@@ -20,7 +21,7 @@ export default async function DashboardPage({
   const supabase = await createClient();
 
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+  if (!user) redirect(`/${locale}/login`);
 
   const dateLocale = locale === 'tr' ? tr : enUS;
   const today = new Date();
@@ -101,8 +102,8 @@ export default async function DashboardPage({
   const todayHours = Math.floor(todayMinutes / 60);
   const todayMins = todayMinutes % 60;
   const studyDisplay = todayHours > 0
-    ? `${todayHours}${t('hours')} ${todayMins}${t('minutes')}`
-    : `${todayMinutes}${t('minutes')}`;
+    ? `${todayHours} ${t('hours')} ${todayMins} ${t('minutes')}`
+    : `${todayMinutes} ${t('minutes')}`;
 
   return (
     <div className="space-y-6">
@@ -128,7 +129,7 @@ export default async function DashboardPage({
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>0</span>
             <span className="text-emerald-500 font-medium">{goalProgress}%</span>
-            <span>{dailyGoal} dk</span>
+            <span>{dailyGoal} {t('min')}</span>
           </div>
         </div>
 

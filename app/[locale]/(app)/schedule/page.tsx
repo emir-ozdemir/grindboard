@@ -12,6 +12,7 @@ import type { Schedule, Subject } from '@/types/database';
 type ScheduleWithSubject = Schedule & { subject: Subject };
 
 const DAY_KEY_MAP = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const;
+type DayKey = typeof DAY_KEY_MAP[number];
 
 export default function SchedulePage() {
   const t = useTranslations('schedule');
@@ -64,7 +65,7 @@ export default function SchedulePage() {
 
   const now = new Date();
   const weekLabel = `${t('weekPrefix')}${now.toLocaleDateString(locale, { day: 'numeric', month: 'long' })}${t('weekSuffix')}`;
-  const todayName = t(`days.${DAY_KEY_MAP[today]}` as any);
+  const todayName = t(`days.${DAY_KEY_MAP[today] as DayKey}`);
 
   return (
     <div className="space-y-6">

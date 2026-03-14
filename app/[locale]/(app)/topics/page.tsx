@@ -183,7 +183,7 @@ export default function TopicsPage() {
                     <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: subject.color }} />
                     <span className="truncate font-medium">{subject.name}</span>
                   </div>
-                  <div className="text-xs opacity-70 ml-4.5">{progress}% · {count} konu</div>
+                  <div className="text-xs opacity-70 ml-4.5">{progress}% · {t('topicCount', { n: count })}</div>
                 </button>
                 <Button
                   variant="ghost"

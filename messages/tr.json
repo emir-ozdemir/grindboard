@@ -303,6 +303,7 @@
       "completed": "Tamamlandı"
     },
     "completedOf": "{completed}/{total} konu tamamlandı",
+    "topicCount": "{n} konu",
     "addNote": "Not Ekle",
     "notePlaceholder": "Bu konu hakkında notlarını yaz...",
     "deleteSubjectConfirm": "Bu dersi silmek istediğinizden emin misiniz? Tüm konular da silinecektir.",
