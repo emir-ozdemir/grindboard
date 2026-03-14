@@ -71,11 +71,17 @@ export async function middleware(request: NextRequest) {
   );
 
   if (isSubscriptionRoute) {
-    const { data: subscription } = await supabase
+    const { data: subscription, error: subError } = await supabase
       .from('subscriptions')
       .select('status, trial_ends_at')
       .eq('user_id', user.id)
-      .single();
+      .maybeSingle();
+
+    // If the DB query fails for any reason, fail open to avoid locking out valid users.
+    if (subError) {
+      console.warn('[middleware] subscription check failed:', subError.message);
+      return supabaseResponse;
+    }
 
     const now = new Date();
     const isActive =
