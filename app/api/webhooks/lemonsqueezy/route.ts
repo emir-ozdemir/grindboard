@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
   const rawBody = await request.text();
-  const headersList = await headers();
+  const headersList = headers();
   const signature = headersList.get('X-Signature') || '';
   const secret = process.env.LEMON_SQUEEZY_WEBHOOK_SECRET || '';
 
@@ -38,10 +38,17 @@ export async function POST(request: NextRequest) {
   switch (eventName) {
     case 'subscription_created':
     case 'subscription_updated':
+      const mappedStatus = (() => {
+        if (status === 'on_trial') return 'trialing';
+        if (status === 'active') return 'active';
+        if (status === 'paused') return 'paused';
+        if (status === 'cancelled') return 'cancelled';
+        return 'expired'; // suspended, unpaid, etc.
+      })();
       await supabase.from('subscriptions').upsert({
         user_id: userId,
         lemonsqueezy_subscription_id: String(subscriptionId),
-        status: status === 'on_trial' ? 'trialing' : status === 'active' ? 'active' : 'expired',
+        status: mappedStatus,
         current_period_start: data?.current_period_start,
         current_period_end: data?.current_period_end,
         trial_ends_at: data?.trial_ends_at,

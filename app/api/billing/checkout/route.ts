@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
   }
 
   const period = request.nextUrl.searchParams.get('period') ?? 'monthly';
+  const locale = request.nextUrl.searchParams.get('locale') ?? 'tr';
   // Fall back to monthly variant if yearly is not configured
   const variantId =
     period === 'yearly' && process.env.NEXT_PUBLIC_LEMON_SQUEEZY_VARIANT_YEARLY_ID
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest) {
       : process.env.NEXT_PUBLIC_LEMON_SQUEEZY_VARIANT_ID;
 
   try {
-    const checkoutUrl = await createCheckoutUrl(user.id, user.email ?? '', variantId);
+    const checkoutUrl = await createCheckoutUrl(user.id, user.email ?? '', variantId, locale);
     if (!checkoutUrl) {
       return NextResponse.json({ error: 'Failed to create checkout' }, { status: 500 });
     }

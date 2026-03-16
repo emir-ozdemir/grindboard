@@ -1,6 +1,6 @@
 const LEMON_SQUEEZY_API_URL = 'https://api.lemonsqueezy.com/v1';
 
-export async function createCheckoutUrl(userId: string, userEmail: string, variantId?: string): Promise<string> {
+export async function createCheckoutUrl(userId: string, userEmail: string, variantId?: string, locale = 'tr'): Promise<string> {
   const storeId = process.env.NEXT_PUBLIC_LEMON_SQUEEZY_STORE_ID;
   variantId = variantId ?? process.env.NEXT_PUBLIC_LEMON_SQUEEZY_VARIANT_ID;
 
@@ -20,7 +20,7 @@ export async function createCheckoutUrl(userId: string, userEmail: string, varia
             custom: { user_id: userId },
           },
           product_options: {
-            redirect_url: `${process.env.NEXT_PUBLIC_APP_URL}/tr/dashboard`,
+            redirect_url: `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/dashboard`,
           },
         },
         relationships: {

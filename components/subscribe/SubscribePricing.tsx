@@ -313,7 +313,7 @@ export function SubscribePricing({ subscription, isTrialing, locale }: Subscribe
 
   const handleCheckout = async (period: 'monthly' | 'yearly') => {
     setLoading(period);
-    window.location.href = `/api/billing/checkout?period=${period}`;
+    window.location.href = `/api/billing/checkout?period=${period}&locale=${locale}`;
   };
 
   // Active or gifted subscriber → full management panel
