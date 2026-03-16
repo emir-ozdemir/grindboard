@@ -526,6 +526,7 @@
     "memberSinceLabel": "Member since",
     "cancelledNotice": "Your subscription has been cancelled. You retain access until the end of the current period.",
     "expiredNotice": "Your subscription has expired. Choose a plan to get back.",
+    "noSubscriptionNotice": "Choose a plan to access GrindBoard Pro. Try free for 7 days, cancel anytime.",
     "pausedNotice": "Your subscription is paused.",
     "resubscribe": "Resubscribe",
     "statusActive": "Active",

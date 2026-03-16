@@ -86,7 +86,8 @@ export async function middleware(request: NextRequest) {
 
       if (!status || !ACTIVE_STATUSES.includes(status)) {
         const locale = locales.find((l) => pathname.startsWith(`/${l}/`)) || defaultLocale;
-        return NextResponse.redirect(new URL(`/${locale}/subscribe`, request.url));
+        const reason = !status ? 'no_subscription' : 'expired';
+        return NextResponse.redirect(new URL(`/${locale}/subscribe?reason=${reason}`, request.url));
       }
     } catch {
       // Fail open on errors — don't block legitimate users

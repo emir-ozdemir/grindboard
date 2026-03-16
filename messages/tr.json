@@ -526,6 +526,7 @@
     "memberSinceLabel": "Üye tarihi",
     "cancelledNotice": "Aboneliğiniz iptal edildi. Mevcut dönem sonuna kadar erişiminiz devam eder.",
     "expiredNotice": "Aboneliğinizin süresi doldu. Tekrar başlamak için bir plan seçin.",
+    "noSubscriptionNotice": "GrindBoard Pro'ya erişmek için bir plan seçin. 7 gün ücretsiz dene, istediğin zaman iptal et.",
     "pausedNotice": "Aboneliğiniz duraklatılmış.",
     "resubscribe": "Yeniden Abone Ol",
     "statusActive": "Aktif",

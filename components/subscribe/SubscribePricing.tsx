@@ -29,6 +29,7 @@ interface SubscribePricingProps {
   subscription: Subscription | null;
   isTrialing: boolean;
   locale: string;
+  gateReason?: 'expired' | 'no_subscription' | null;
 }
 
 // ── Pricing Card ──────────────────────────────────────────────────────────────
@@ -305,7 +306,7 @@ function NoticeBanner({ type }: { type: 'cancelled' | 'expired' | 'paused' }) {
 
 // ── Main Component ────────────────────────────────────────────────────────────
 
-export function SubscribePricing({ subscription, isTrialing, locale }: SubscribePricingProps) {
+export function SubscribePricing({ subscription, isTrialing, locale, gateReason }: SubscribePricingProps) {
   const t = useTranslations('subscribe');
   const [loading, setLoading] = useState<'monthly' | 'yearly' | null>(null);
 
@@ -321,14 +322,39 @@ export function SubscribePricing({ subscription, isTrialing, locale }: Subscribe
     return <ActivePanel subscription={subscription!} locale={locale} />;
   }
 
+  // Determine which gate notice to show (gateReason takes priority, then subscription status)
+  const showExpiredGate = gateReason === 'expired' || status === 'expired';
+  const showNoSubGate = gateReason === 'no_subscription' && !status;
+
   // Everything else → pricing page (with optional notice banner)
   return (
     <div className="relative max-w-3xl mx-auto px-4 py-6">
       <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-64 bg-amber-500/8 rounded-full blur-3xl" />
 
-      {/* Notice banners for special states */}
+      {/* Gate notice — shown when redirected from subscription gate */}
+      {showExpiredGate && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3.5 mb-5 text-sm text-destructive"
+        >
+          <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+          <span className="font-semibold">{t('expiredNotice')}</span>
+        </motion.div>
+      )}
+      {showNoSubGate && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3.5 mb-5 text-sm text-amber-600 dark:text-amber-400"
+        >
+          <Sparkles className="w-4 h-4 shrink-0 mt-0.5" />
+          <span className="font-semibold">{t('noSubscriptionNotice')}</span>
+        </motion.div>
+      )}
+
+      {/* Notice banners for other special states */}
       {status === 'cancelled' && <NoticeBanner type="cancelled" />}
-      {status === 'expired' && <NoticeBanner type="expired" />}
       {status === 'paused' && <NoticeBanner type="paused" />}
 
       {/* Header */}
