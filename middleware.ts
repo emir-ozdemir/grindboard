@@ -9,11 +9,17 @@ const intlMiddleware = createMiddleware({
   localePrefix: 'always',
 });
 
-// Protected routes that require authentication
+// All routes that require authentication
 const protectedRoutes = [
   '/dashboard', '/pomodoro', '/schedule', '/topics', '/notes',
   '/stats', '/exams', '/settings', '/subscribe', '/goals',
 ];
+
+// Auth-required routes that bypass the subscription gate
+const subscriptionFreeRoutes = ['/subscribe', '/settings'];
+
+// Subscription statuses that grant access
+const ACTIVE_STATUSES = ['trialing', 'active', 'paused', 'cancelled', 'gifted'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -55,6 +61,36 @@ export async function middleware(request: NextRequest) {
     const loginUrl = new URL(`/${locale}/login`, request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
+  }
+
+  // Subscription gate — skip for subscribe & settings pages
+  const isSubscriptionFree = subscriptionFreeRoutes.some((route) =>
+    locales.some((locale) => pathname.startsWith(`/${locale}${route}`))
+  );
+
+  if (!isSubscriptionFree) {
+    try {
+      // Use service role key to bypass RLS for subscription check
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/subscriptions?user_id=eq.${user.id}&select=status&limit=1`,
+        {
+          headers: {
+            apikey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
+            Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY!}`,
+          },
+          cache: 'no-store',
+        }
+      );
+      const rows: { status: string }[] = await res.json();
+      const status = rows?.[0]?.status;
+
+      if (!status || !ACTIVE_STATUSES.includes(status)) {
+        const locale = locales.find((l) => pathname.startsWith(`/${l}/`)) || defaultLocale;
+        return NextResponse.redirect(new URL(`/${locale}/subscribe`, request.url));
+      }
+    } catch {
+      // Fail open on errors — don't block legitimate users
+    }
   }
 
   return supabaseResponse;
