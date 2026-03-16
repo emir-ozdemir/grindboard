@@ -3,13 +3,12 @@ import { createClient } from '@/lib/supabase/server';
 import { getTranslations } from 'next-intl/server';
 import { SummaryCard } from '@/components/dashboard/SummaryCard';
 import { WeeklyChart } from '@/components/dashboard/WeeklyChart';
-import { TrialBanner } from '@/components/dashboard/TrialBanner';
 import { Progress } from '@/components/ui/progress';
 import { Timer, Flame, Clock, Target } from 'lucide-react';
 import { startOfWeek, eachDayOfInterval, endOfWeek, format, startOfDay, endOfDay } from 'date-fns';
 import { tr, enUS } from 'date-fns/locale';
 import type { Locale } from '@/i18n/config';
-import type { StudySession, Profile, Subscription } from '@/types/database';
+import type { StudySession, Profile } from '@/types/database';
 
 export default async function DashboardPage({
   params,
@@ -53,14 +52,6 @@ export default async function DashboardPage({
     .eq('id', user.id)
     .single();
   const profile = profileRaw as Profile | null;
-
-  // Fetch subscription
-  const { data: subscriptionRaw } = await supabase
-    .from('subscriptions')
-    .select('*')
-    .eq('user_id', user.id)
-    .single();
-  const subscription = subscriptionRaw as Subscription | null;
 
   // Calculate stats
   const todayMinutes = todaySessions?.reduce((sum, s) => sum + s.duration_minutes, 0) || 0;
@@ -107,9 +98,6 @@ export default async function DashboardPage({
 
   return (
     <div className="space-y-6">
-      {/* Trial Banner */}
-      <TrialBanner subscription={subscription} />
-
       {/* Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <SummaryCard title={t('totalStudy')} value={studyDisplay} icon={Clock} color="violet" />

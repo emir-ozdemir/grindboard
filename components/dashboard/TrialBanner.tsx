@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { AlertTriangle, X } from 'lucide-react';
+import { AlertTriangle, Clock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { differenceInDays } from 'date-fns';
@@ -65,5 +65,23 @@ export function TrialBanner({ subscription }: TrialBannerProps) {
     );
   }
 
-  return null;
+  // daysLeft > 3 — informational amber banner
+  return (
+    <div className="flex items-center justify-between p-3 mb-6 bg-primary/[0.07] border border-primary/20 rounded-lg">
+      <div className="flex items-center gap-2">
+        <Clock className="h-4 w-4 text-primary" />
+        <span className="text-sm font-medium">
+          {t('trialBanner', { days: daysLeft })}
+        </span>
+      </div>
+      <div className="flex items-center gap-2">
+        <Button asChild size="sm" variant="outline" className="h-7 text-xs">
+          <Link href={`/${locale}/subscribe`}>{t('subscribeNow')}</Link>
+        </Button>
+        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setDismissed(true)}>
+          <X className="h-3 w-3" />
+        </Button>
+      </div>
+    </div>
+  );
 }
