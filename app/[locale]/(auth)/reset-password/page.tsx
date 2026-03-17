@@ -28,7 +28,7 @@ export default function ResetPasswordPage() {
   useEffect(() => {
     const code = searchParams.get('code');
     if (code) {
-      supabase.auth.exchangeCodeForSession(code).then(({ error }) => {
+      supabase.auth.exchangeCodeForSession(code).then(({ error }: { error: { message: string } | null }) => {
         if (error) setError(t('resetError'));
         else setSessionReady(true);
       });
