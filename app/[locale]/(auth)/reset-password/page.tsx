@@ -34,7 +34,8 @@ export default function ResetPasswordPage() {
       });
     } else {
       // No code — might have arrived via hash tokens (implicit flow)
-      supabase.auth.getSession().then(({ data: { session } }) => {
+      supabase.auth.getSession().then(({ data }) => {
+        const session = data?.session;
         if (session) setSessionReady(true);
         else setError(t('resetError'));
       });
