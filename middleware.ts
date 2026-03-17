@@ -24,6 +24,14 @@ const ACTIVE_STATUSES = ['trialing', 'active', 'paused', 'cancelled', 'gifted'];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Intercept Supabase password reset redirect: site root + code param → reset-password page
+  const code = request.nextUrl.searchParams.get('code');
+  const isLocaleRoot = pathname === '/' || locales.some((l) => pathname === `/${l}`);
+  if (code && isLocaleRoot) {
+    const locale = locales.find((l) => pathname === `/${l}`) || defaultLocale;
+    return NextResponse.redirect(new URL(`/${locale}/reset-password?code=${code}`, request.url));
+  }
+
   const isProtectedRoute = protectedRoutes.some((route) =>
     locales.some((locale) => pathname.startsWith(`/${locale}${route}`))
   );
