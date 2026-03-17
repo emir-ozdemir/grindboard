@@ -26,19 +26,19 @@ export default function ResetPasswordPage() {
   const [sessionReady, setSessionReady] = useState(false);
 
   useEffect(() => {
-    const code = searchParams.get('code');
-    if (code) {
-      supabase.auth.exchangeCodeForSession(code).then(({ error }: { error: { message: string } | null }) => {
-        if (error) setError(t('resetError'));
+    const init = async () => {
+      const code = searchParams.get('code');
+      if (code) {
+        const { error: exchError } = await supabase.auth.exchangeCodeForSession(code);
+        if (exchError) setError(t('resetError'));
         else setSessionReady(true);
-      });
-    } else {
-      // No code — might have arrived via hash tokens (implicit flow)
-      supabase.auth.getSession().then((result) => {
-        if (result.data?.session) setSessionReady(true);
+      } else {
+        const { data } = await supabase.auth.getSession();
+        if (data?.session) setSessionReady(true);
         else setError(t('resetError'));
-      });
-    }
+      }
+    };
+    init();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
