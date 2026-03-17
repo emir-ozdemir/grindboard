@@ -13,175 +13,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/lib/hooks/use-toast';
-import {
-  Sun, Moon, Monitor, Trash2, Calendar, Zap, ArrowRight,
-  CreditCard, CheckCircle2, Clock, AlertCircle,
-} from 'lucide-react';
-import type { Profile, Subscription } from '@/types/database';
-
-// ─── Subscription Widget ───────────────────────────────────────────────────────
-
-function SubscriptionWidget({
-  subscription,
-  locale,
-}: {
-  subscription: Subscription | null;
-  locale: string;
-}) {
-  const t = useTranslations('settings');
-  const tSub = useTranslations('subscription');
-  const router = useRouter();
-
-  if (!subscription) {
-    return (
-      <div className="rounded-2xl border border-white/[0.07] bg-card/60 backdrop-blur-sm overflow-hidden">
-        <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
-        <div className="p-5 space-y-4">
-          <div className="flex items-center gap-2">
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              {t('subscription')}
-            </p>
-          </div>
-          <p className="text-sm text-muted-foreground">{tSub('notFound')}</p>
-          <button
-            onClick={() => router.push(`/${locale}/subscribe`)}
-            className="w-full py-2.5 rounded-xl btn-gradient text-sm font-semibold text-white"
-          >
-            {tSub('subscribeNow')}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  const now = new Date();
-  const isTrialing = subscription.status === 'trialing';
-  const isActive = subscription.status === 'active';
-
-  // Detect yearly vs monthly by period length
-  const isYearly =
-    subscription.current_period_start && subscription.current_period_end
-      ? new Date(subscription.current_period_end).getTime() -
-          new Date(subscription.current_period_start).getTime() >
-        200 * 86_400_000
-      : false;
-
-  // Trial progress
-  let trialDaysLeft = 0;
-  let trialProgress = 0;
-  if (isTrialing && subscription.trial_ends_at) {
-    const trialEnd = new Date(subscription.trial_ends_at);
-    const trialStart = subscription.current_period_start
-      ? new Date(subscription.current_period_start)
-      : new Date(trialEnd.getTime() - 14 * 86_400_000);
-    const totalDays = (trialEnd.getTime() - trialStart.getTime()) / 86_400_000;
-    trialDaysLeft = Math.max(0, Math.ceil((trialEnd.getTime() - now.getTime()) / 86_400_000));
-    trialProgress = Math.min(100, ((totalDays - trialDaysLeft) / totalDays) * 100);
-  }
-
-  const nextPaymentDate = subscription.current_period_end
-    ? new Date(subscription.current_period_end).toLocaleDateString(locale, {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      })
-    : null;
-
-  const STATUS_CONFIG: Record<string, { label: string; cls: string; icon: React.ReactNode }> = {
-    trialing:  { label: tSub('trialing'),  cls: 'text-amber-400 bg-amber-400/10 border-amber-400/20',   icon: <Clock className="h-3 w-3" /> },
-    active:    { label: tSub('active'),    cls: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20', icon: <CheckCircle2 className="h-3 w-3" /> },
-    cancelled: { label: tSub('cancelled'), cls: 'text-red-400 bg-red-400/10 border-red-400/20',         icon: <AlertCircle className="h-3 w-3" /> },
-    expired:   { label: tSub('expired'),   cls: 'text-red-400 bg-red-400/10 border-red-400/20',         icon: <AlertCircle className="h-3 w-3" /> },
-    paused:    { label: tSub('paused'),    cls: 'text-muted-foreground bg-muted/10 border-muted/20',     icon: <AlertCircle className="h-3 w-3" /> },
-  };
-
-  const statusCfg = STATUS_CONFIG[subscription.status] ?? STATUS_CONFIG.paused;
-
-  return (
-    <div className="rounded-2xl border border-white/[0.07] bg-card/60 backdrop-blur-sm overflow-hidden">
-      <div className="h-px bg-gradient-to-r from-transparent via-amber-500/40 to-transparent" />
-
-      <div className="p-5 space-y-4">
-        {/* Header */}
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <CreditCard className="h-3.5 w-3.5 text-muted-foreground" />
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                {t('subscription')}
-              </p>
-            </div>
-            <p className="text-base font-bold">
-              {isYearly ? t('yearlyPlan') : t('monthlyPlan')}
-            </p>
-          </div>
-          <span
-            className={cn(
-              'inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full border shrink-0',
-              statusCfg.cls,
-            )}
-          >
-            {statusCfg.icon}
-            {statusCfg.label}
-          </span>
-        </div>
-
-        {/* Trial progress bar */}
-        {isTrialing && (
-          <div className="space-y-2">
-            <div className="flex justify-between text-xs">
-              <span className="text-muted-foreground">{t('trialPeriod')}</span>
-              <span className="text-amber-400 font-medium">
-                {tSub('trialDaysLeft', { days: trialDaysLeft })}
-              </span>
-            </div>
-            <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-gradient-to-r from-amber-500 to-orange-400 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: `${trialProgress}%` }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Next payment */}
-        {nextPaymentDate && isActive && (
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Calendar className="h-3.5 w-3.5 shrink-0" />
-            <span>{t('nextPayment')}: {nextPaymentDate}</span>
-          </div>
-        )}
-
-        {/* Upgrade teaser: monthly → yearly */}
-        {isActive && !isYearly && (
-          <div className="rounded-xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 to-orange-500/5 p-3.5">
-            <div className="flex items-center gap-2 mb-1">
-              <Zap className="h-3.5 w-3.5 text-amber-400" />
-              <p className="text-xs font-bold text-amber-400">{t('upgradeTitle')}</p>
-            </div>
-            <p className="text-[11px] text-muted-foreground mb-3">{t('upgradeSavings')}</p>
-            <button className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-amber-500/20 border border-amber-500/30 text-xs font-semibold text-amber-400 hover:bg-amber-500/30 transition-all">
-              {t('upgradeToYearly')}
-              <ArrowRight className="h-3 w-3" />
-            </button>
-          </div>
-        )}
-
-        {/* Manage button */}
-        <a
-          href="/api/billing/portal"
-          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-white/10 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all"
-        >
-          {t('manageSubscription')}
-          <ArrowRight className="h-3.5 w-3.5" />
-        </a>
-      </div>
-    </div>
-  );
-}
+import { Sun, Moon, Monitor, Trash2 } from 'lucide-react';
+import type { Profile } from '@/types/database';
 
 // ─── Keyboard Shortcuts Widget ─────────────────────────────────────────────────
 
@@ -249,7 +82,6 @@ function KeyboardShortcutsWidget() {
 
 export default function SettingsPage() {
   const t = useTranslations('settings');
-  const tSub = useTranslations('subscription');
   const { theme, setTheme } = useTheme();
   const router = useRouter();
   const params = useParams();
@@ -258,7 +90,6 @@ export default function SettingsPage() {
   const supabase = createClient();
 
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
   const [dailyGoal, setDailyGoal] = useState(120);
@@ -272,10 +103,7 @@ export default function SettingsPage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    const [{ data: prof }, { data: sub }] = await Promise.all([
-      supabase.from('profiles').select('*').eq('id', user.id).single(),
-      supabase.from('subscriptions').select('*').eq('user_id', user.id).single(),
-    ]);
+    const { data: prof } = await supabase.from('profiles').select('*').eq('id', user.id).single();
 
     if (prof) {
       setProfile(prof);
@@ -283,7 +111,6 @@ export default function SettingsPage() {
       setUsername(prof.username || '');
       setDailyGoal(prof.daily_goal_minutes);
     }
-    if (sub) setSubscription(sub);
   };
 
   const saveProfile = async () => {
@@ -306,13 +133,6 @@ export default function SettingsPage() {
     await supabase.from('profiles').delete().eq('id', user.id);
     await supabase.auth.signOut();
     router.push(`/${locale}`);
-  };
-
-  const statusLabel: Record<string, string> = {
-    trialing:  tSub('trialing'),
-    active:    tSub('active'),
-    cancelled: tSub('cancelled'),
-    expired:   tSub('expired'),
   };
 
   return (
@@ -411,36 +231,6 @@ export default function SettingsPage() {
           </Card>
         </div>
 
-        {/* Subscription (mobile only) */}
-        <Card className="border-border/50 xl:hidden">
-          <CardHeader className="px-5 pt-5 pb-3">
-            <CardTitle className="text-sm font-semibold">{t('subscription')}</CardTitle>
-            {subscription && (
-              <CardDescription className="text-xs">
-                {statusLabel[subscription.status] || subscription.status}
-                {subscription.trial_ends_at && subscription.status === 'trialing' && (
-                  <span className="ml-2 text-amber-500">
-                    · {tSub('trialDaysLeft', {
-                      days: Math.max(0, Math.ceil((new Date(subscription.trial_ends_at).getTime() - Date.now()) / 86_400_000))
-                    })}
-                  </span>
-                )}
-              </CardDescription>
-            )}
-          </CardHeader>
-          <CardContent className="px-5 pb-5">
-            {subscription?.status === 'active' ? (
-              <a href="/api/billing/portal">
-                <Button variant="outline" size="sm">{t('manageSubscription')}</Button>
-              </a>
-            ) : (
-              <Button size="sm" onClick={() => router.push(`/${locale}/subscribe`)}>
-                {tSub('subscribeNow')}
-              </Button>
-            )}
-          </CardContent>
-        </Card>
-
         {/* Danger Zone */}
         <Card className="border-destructive/30">
           <CardHeader>
@@ -458,7 +248,6 @@ export default function SettingsPage() {
 
       {/* ── Right: sticky widgets (desktop only) ── */}
       <div className="hidden xl:flex flex-col gap-4 sticky top-6">
-        <SubscriptionWidget subscription={subscription} locale={locale} />
         <KeyboardShortcutsWidget />
       </div>
     </div>
