@@ -403,7 +403,17 @@
     "passwordMismatch": "Passwords do not match.",
     "checkEmail": "Check your email! A verification link has been sent.",
     "fullName": "Full Name",
-    "or": "or"
+    "or": "or",
+    "forgotPasswordTitle": "Reset Your Password",
+    "forgotPasswordDesc": "Enter your email address and we'll send you a reset link.",
+    "sendResetLink": "Send Reset Link",
+    "resetLinkSent": "Link sent! Check your email.",
+    "backToLogin": "Back to Login",
+    "resetPasswordTitle": "Set New Password",
+    "newPassword": "New Password",
+    "resetPasswordBtn": "Update Password",
+    "resetSuccess": "Password updated! You can now log in.",
+    "resetError": "Something went wrong. The link may have expired."
   },
   "subscription": {
     "trialing": "Trial",

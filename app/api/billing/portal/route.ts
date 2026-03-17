@@ -10,10 +10,10 @@ export async function GET() {
     .from('subscriptions')
     .select('lemonsqueezy_subscription_id')
     .eq('user_id', user.id)
-    .single();
+    .maybeSingle();
 
   if (!sub?.lemonsqueezy_subscription_id) {
-    return NextResponse.redirect(new URL('/subscribe', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'));
+    return NextResponse.redirect(new URL('/subscribe', process.env.NEXT_PUBLIC_APP_URL));
   }
 
   try {

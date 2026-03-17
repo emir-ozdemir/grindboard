@@ -403,7 +403,17 @@
     "passwordMismatch": "Şifreler eşleşmiyor.",
     "checkEmail": "E-postanı kontrol et! Doğrulama bağlantısı gönderildi.",
     "fullName": "Ad Soyad",
-    "or": "veya"
+    "or": "veya",
+    "forgotPasswordTitle": "Şifreni Sıfırla",
+    "forgotPasswordDesc": "E-posta adresini gir, şifre sıfırlama bağlantısı gönderelim.",
+    "sendResetLink": "Bağlantı Gönder",
+    "resetLinkSent": "Bağlantı gönderildi! E-postanı kontrol et.",
+    "backToLogin": "Girişe Dön",
+    "resetPasswordTitle": "Yeni Şifre Belirle",
+    "newPassword": "Yeni Şifre",
+    "resetPasswordBtn": "Şifreyi Güncelle",
+    "resetSuccess": "Şifren güncellendi! Şimdi giriş yapabilirsin.",
+    "resetError": "Bir hata oluştu. Bağlantının süresi dolmuş olabilir."
   },
   "subscription": {
     "trialing": "Deneme Sürümü",
