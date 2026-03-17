@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -16,12 +16,31 @@ export default function ResetPasswordPage() {
   const params = useParams();
   const locale = params.locale as string;
   const router = useRouter();
+  const searchParams = useSearchParams();
   const supabase = createClient();
 
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState('');
+  const [sessionReady, setSessionReady] = useState(false);
+
+  useEffect(() => {
+    const code = searchParams.get('code');
+    if (code) {
+      supabase.auth.exchangeCodeForSession(code).then(({ error }) => {
+        if (error) setError(t('resetError'));
+        else setSessionReady(true);
+      });
+    } else {
+      // No code — might have arrived via hash tokens (implicit flow)
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) setSessionReady(true);
+        else setError(t('resetError'));
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,9 +93,10 @@ export default function ResetPasswordPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 minLength={6}
                 required
+                disabled={!sessionReady}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full" disabled={loading || !sessionReady}>
               {loading ? (
                 <><Loader2 className="mr-2 h-4 w-4 animate-spin" />{t('resetPasswordBtn')}</>
               ) : t('resetPasswordBtn')}
