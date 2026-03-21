@@ -34,6 +34,9 @@ export const metadata: Metadata = {
     "study statistics",
   ],
   metadataBase: new URL("https://grindboard.org"),
+  verification: {
+    google: "wgTZ_vjYFrPEkk5oSDNQJGV37-G7Epr6w87Y-X_aTis",
+  },
   alternates: {
     canonical: "/",
   },
