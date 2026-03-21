@@ -18,7 +18,48 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GrindBoard",
+  title: {
+    default: "GrindBoard — Study Platform for Exam Preparation",
+    template: "%s | GrindBoard",
+  },
+  description:
+    "Pomodoro timer, study schedule, topic tracking, flashcards, and study statistics. Organize your study sessions and ace your exams.",
+  keywords: [
+    "study app",
+    "pomodoro timer",
+    "exam preparation",
+    "study schedule",
+    "topic tracking",
+    "flashcards",
+    "study statistics",
+  ],
+  metadataBase: new URL("https://grindboard.org"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://grindboard.org",
+    siteName: "GrindBoard",
+    title: "GrindBoard — Study Platform for Exam Preparation",
+    description:
+      "Pomodoro timer, study schedule, topic tracking, flashcards, and study statistics. Organize your study sessions and ace your exams.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GrindBoard — Study Platform for Exam Preparation",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GrindBoard — Study Platform for Exam Preparation",
+    description:
+      "Pomodoro timer, study schedule, topic tracking, flashcards, and study statistics. Organize your study sessions and ace your exams.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({

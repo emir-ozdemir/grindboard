@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { StatsCharts } from '@/components/stats/StatsCharts';
 import type { Locale } from '@/i18n/config';
+
+export const metadata: Metadata = {
+  title: 'Statistics',
+  alternates: { canonical: '/stats' },
+};
 
 export default async function StatsPage({
   params,

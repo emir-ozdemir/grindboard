@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { PomodoroTimer } from '@/components/pomodoro/PomodoroTimer';
+
+export const metadata: Metadata = {
+  title: 'Pomodoro Timer',
+  alternates: { canonical: '/pomodoro' },
+};
 
 export default async function PomodoroPage() {
   const supabase = await createClient();

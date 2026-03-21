@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { GoalsPage } from '@/components/goals/GoalsPage';
 import type { Subject } from '@/types/database';
+
+export const metadata: Metadata = {
+  title: 'Goals',
+  alternates: { canonical: '/goals' },
+};
 
 export default async function GoalsServerPage() {
   const supabase = await createClient();
